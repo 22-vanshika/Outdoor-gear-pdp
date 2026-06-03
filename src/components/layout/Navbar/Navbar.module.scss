@@ -1,0 +1,176 @@
+@use '@/styles/tokens' as *;
+@use '@/styles/breakpoints' as *;
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: $z-nav;
+  background-color: $color-background;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: $spacing-sm $spacing-margin-mobile;
+  height: $sticky-bar-height;
+  border-bottom: 1px solid $color-outline-variant;
+
+  @include desktop {
+    padding: $spacing-sm $spacing-margin;
+  }
+}
+
+.menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: $spacing-2px;
+
+  @include desktop {
+    display: none;
+  }
+}
+
+.menu-icon {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background-color: $color-on-surface;
+  position: relative;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background-color: $color-on-surface;
+    left: 0;
+  }
+
+  &::before {
+    top: -6px;
+  }
+
+  &::after {
+    bottom: -6px;
+  }
+}
+
+.brand {
+  font-family: $font-primary;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-lg;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  margin-right: auto;
+  margin-left: $spacing-sm;
+
+  @include desktop {
+    font-size: $font-size-2xl;
+    margin-right: $spacing-xl;
+    margin-left: 0;
+  }
+}
+
+.brand-link {
+  color: $color-on-surface;
+  text-decoration: none;
+}
+
+.nav-desktop {
+  display: none;
+
+  @include desktop {
+    display: flex;
+    align-items: center;
+    flex: 1;
+  }
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  font-family: $font-primary;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-base;
+  color: $color-on-surface-variant;
+  text-decoration: none;
+  transition: color $transition-fast;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+
+  &:hover {
+    color: $color-on-surface;
+  }
+}
+
+.nav-link--active {
+  color: $color-primary;
+  border-bottom-color: $color-primary;
+}
+
+.icons-group {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+
+  @include desktop {
+    gap: $spacing-md;
+  }
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $color-on-surface;
+  padding: $spacing-2px;
+  position: relative;
+
+  span.material-symbols-outlined {
+    font-size: 28px;
+  }
+}
+
+.cart-badge {
+  position: absolute;
+  top: 4px;
+  right: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: $color-primary;
+}
+
+.nav-mobile {
+  position: absolute;
+  top: $sticky-bar-height;
+  left: 0;
+  right: 0;
+  background-color: $color-background;
+  border-bottom: 1px solid $color-outline-variant;
+  padding: $spacing-md $spacing-margin-mobile;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+
+  @include desktop {
+    display: none;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-md;
+  }
+}

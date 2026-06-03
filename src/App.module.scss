@@ -39,7 +39,7 @@
   @include desktop {
     width: 45%;
     position: sticky;
-    top: $spacing-md;
+    top: calc(#{$sticky-bar-height} + #{$spacing-md});
     align-self: flex-start;
   }
 }
