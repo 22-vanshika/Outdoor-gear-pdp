@@ -1,0 +1,117 @@
+@use '@/styles/tokens' as *;
+@use '@/styles/breakpoints' as *;
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: $spacing-sm;
+}
+
+.label {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  letter-spacing: $letter-spacing-widest;
+  text-transform: uppercase;
+  color: $color-on-surface-variant;
+}
+
+.sizing-guide {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  color: $color-on-surface-variant;
+  text-decoration: underline;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+// Mobile and Desktop: grid settings
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: $spacing-sm;
+
+  @include desktop {
+    grid-template-columns: repeat(4, 1fr);  // 4-column grid on desktop
+    gap: $spacing-sm;
+  }
+}
+
+.size-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60px; /* Equal height for all options whether status subtext is present or not */
+  padding: $spacing-sm;
+  border: 1px solid transparent;
+  border-radius: $radius-lg;
+  background-color: $color-surface-container-lowest;
+  color: $color-on-surface;
+  cursor: pointer;
+  transition:
+    border-color $transition-default,
+    background-color $transition-default;
+  text-align: center;
+
+  @include desktop {
+    height: 60px;
+    padding: $spacing-sm $spacing-md;
+    border-radius: $radius-lg;
+  }
+
+  &--active {
+    background-color: $color-inverse-surface;
+    border-color: $color-inverse-surface;
+    color: $color-inverse-on-surface;
+  }
+
+  &--low-stock {
+    border-color: rgba($color-primary, 0.4);
+    background-color: rgba($color-primary-fixed, 0.2);
+  }
+
+  &--low-stock:hover {
+    border-color: $color-primary;
+  }
+
+  &--sold-out {
+    border: 1px solid transparent;
+    opacity: 0.35;
+    cursor: not-allowed;
+    background-color: $color-surface-dim;
+  }
+
+  &:hover:not(&--active):not(&--sold-out):not(&--low-stock) {
+    border-color: $color-outline-variant;  // subtle border only on hover
+  }
+}
+
+@include desktop {
+  .size-btn--active .size-btn__status {
+    color: $color-inverse-on-surface;
+    opacity: 0.7;
+  }
+}
+
+.size-btn__label {
+  font-weight: $font-weight-bold;
+  font-size: $font-size-base;
+}
+
+.size-btn__status {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-regular;
+  margin-top: $spacing-2px;
+
+  &--low-stock {
+    color: $color-primary;
+    font-weight: $font-weight-bold;
+  }
+
+  &--sold-out {
+    color: $color-on-surface-variant;
+  }
+
+}

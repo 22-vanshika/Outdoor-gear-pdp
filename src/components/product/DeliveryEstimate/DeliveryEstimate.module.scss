@@ -1,0 +1,36 @@
+@use '@/styles/tokens' as *;
+
+.strip {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $color-outline-variant;
+  border-radius: $radius-lg;
+  background-color: $color-surface-container-low;
+}
+
+.icon {
+  font-size: 20px;
+  color: $color-primary;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.text {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  color: $color-on-surface-variant;
+  line-height: $line-height-normal;
+}
+
+.text__estimate {
+  opacity: 0.7;
+  font-style: italic;
+  display: block;
+}
+
+.text__shipping {
+  font-weight: $font-weight-bold;
+  display: block;
+}

@@ -1,8 +1,9 @@
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useEffect, useCallback, type ReactElement } from 'react';
 import type { ThumbnailStripProps } from './ThumbnailStrip.types';
+import { MOBILE_BREAKPOINT_PX } from '@/constants';
 import styles from './ThumbnailStrip.module.scss';
 
-export function ThumbnailStrip({ images, activeIndex, onSelect }: ThumbnailStripProps) {
+export function ThumbnailStrip({ images, activeIndex, onSelect }: ThumbnailStripProps): ReactElement {
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Sync scroll position with activeIndex on mobile
@@ -10,7 +11,7 @@ export function ThumbnailStrip({ images, activeIndex, onSelect }: ThumbnailStrip
     if (!containerRef.current) return;
     const container = containerRef.current;
     
-    const isMobile = window.innerWidth <= 767;
+    const isMobile = window.innerWidth <= MOBILE_BREAKPOINT_PX;
     if (!isMobile) return;
 
     const thumbnailWidth = 80; // $thumbnail-size
@@ -30,7 +31,7 @@ export function ThumbnailStrip({ images, activeIndex, onSelect }: ThumbnailStrip
     if (!containerRef.current) return;
     const container = containerRef.current;
     
-    const isMobile = window.innerWidth <= 767;
+    const isMobile = window.innerWidth <= MOBILE_BREAKPOINT_PX;
     if (!isMobile) return;
 
     const thumbnailWidth = 80; // $thumbnail-size
@@ -72,14 +73,12 @@ export function ThumbnailStrip({ images, activeIndex, onSelect }: ThumbnailStrip
         ))}
       </div>
 
-      {/* Dots position indicator (mobile only) */}
+      {/* Dots position indicator (mobile only) — purely visual, thumbnails above are the interactive control */}
       <div className={styles.dots} aria-hidden="true">
         {images.map((_, index) => (
-          <button
+          <span
             key={index}
             className={`${styles.dot} ${activeIndex === index ? styles['dot--active'] : ''}`}
-            onClick={() => onSelect(index)}
-            aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>

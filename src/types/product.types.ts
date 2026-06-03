@@ -9,6 +9,7 @@ export interface Colour {
 export interface Size {
   id: string;
   label: string;
+  description: string;
   stock: number;
   status: StockStatus;
 }
@@ -35,7 +36,9 @@ export interface NormalisedProduct {
 
 export interface EnrichedProduct extends NormalisedProduct {
   brand: string;
+  tagline: string;
   variants: VariantConfig;
   isSale: boolean;
-  saleDiscount?: number;
+  saleDiscount: number;
+  titleAccentWord?: string;
 }

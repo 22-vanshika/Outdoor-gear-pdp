@@ -1,17 +1,22 @@
+import { type ReactElement } from 'react';
 import { PrimaryImage } from '../PrimaryImage';
 import { ThumbnailStrip } from '../ThumbnailStrip';
 import { useImageGallery } from '@/hooks';
 import type { ImageGalleryProps } from './ImageGallery.types';
 import styles from './ImageGallery.module.scss';
 
-export function ImageGallery({ images, productName }: ImageGalleryProps) {
-  const { activeIndex, setActiveIndex, activeImage } = useImageGallery(images);
+export function ImageGallery({ images, productName, activeIndex: propsActiveIndex, onSelectIndex }: ImageGalleryProps): ReactElement {
+  const { activeIndex: internalActiveIndex, setActiveIndex: setInternalActiveIndex, activeImage } = useImageGallery(images);
+
+  const activeIndex = propsActiveIndex !== undefined ? propsActiveIndex : internalActiveIndex;
+  const setActiveIndex = onSelectIndex !== undefined ? onSelectIndex : setInternalActiveIndex;
+  const currentImage = images[activeIndex] ?? activeImage;
 
   return (
     <div className={styles.gallery}>
       <div className={styles['primary-wrapper']}>
         <PrimaryImage
-          src={activeImage}
+          src={currentImage}
           alt={`${productName} — image ${activeIndex + 1} of ${images.length}`}
         />
 

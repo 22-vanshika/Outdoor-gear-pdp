@@ -1,0 +1,66 @@
+import type { VariantConfig, StockStatus } from '@/types';
+import { LOW_STOCK_THRESHOLD } from '@/constants';
+
+function deriveStatus(stock: number): StockStatus {
+  if (stock === 0) return 'sold_out' as const;
+  if (stock <= LOW_STOCK_THRESHOLD) return 'low_stock' as const;
+  return 'available' as const;
+}
+
+export interface ProductOverride {
+  title: string;
+  brand: string;
+  description: string;
+  tagline: string;
+  images: string[];
+  isSale: boolean;
+  saleDiscount: number;
+}
+
+export interface FullVariantConfig {
+  override: ProductOverride;
+  variants: VariantConfig;
+}
+
+export const VARIANT_CONFIG: Record<number, FullVariantConfig> = {
+  1: {
+    override: {
+      title: 'Alpine Ascent Pack',
+      brand: 'EXTERIOR GEAR',
+      tagline: 'Modular engineering for the high-alpine environment.',
+      description: 'Engineered for the high-altitude pursuit, the Alpine Ascent Pack blends ultra-durable 1000D Cordura with a revolutionary ergonomic harness. Designed to withstand extreme elements while maintaining a sleek, minimalist profile.',
+      isSale: true,
+      saleDiscount: 20,
+      images: [
+        'https://images.unsplash.com/photo-1621624959365-071359461b94?q=80&w=1064&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        'https://images.unsplash.com/photo-1495745190033-64f95ea0d02f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        'https://images.unsplash.com/photo-1557160836-f3a6d1afaab2?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        'https://images.unsplash.com/photo-1643901947958-fdd7dd3ff77a?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        'https://images.unsplash.com/photo-1622260615656-96d7c7ad6c4c?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+      ],
+    },
+    variants: {
+      colours: [
+        { id: 'slate-blue',      label: 'Slate Blue',     hex: '#5D707F' },
+        { id: 'rust-orange',     label: 'Rust Orange',    hex: '#B35E33' },
+        { id: 'obsidian-black',  label: 'Obsidian Black', hex: '#1A1C1E' },
+      ],
+      sizes: [
+        { id: '15l', label: '15L', description: 'Ultralight', stock: 6,  status: deriveStatus(6)  },
+        { id: '20l', label: '20L', description: 'Standard',   stock: 8,  status: deriveStatus(8)  },
+        { id: '30l', label: '30L', description: 'Extended',   stock: 2,  status: deriveStatus(2)  },
+        { id: '40l', label: '40L', description: 'Expedition', stock: 0,  status: deriveStatus(0)  },
+        { id: '50l', label: '50L', description: 'Max Load',   stock: 4,  status: deriveStatus(4)  },
+      ],
+    },
+  },
+};
+
+export const DEFAULT_VARIANT_CONFIG: VariantConfig = {
+  colours: [
+    { id: 'default', label: 'Default', hex: '#8b4a32' },
+  ],
+  sizes: [
+    { id: 'one-size', label: 'One Size', description: 'Standard', stock: 5, status: deriveStatus(5) },
+  ],
+};

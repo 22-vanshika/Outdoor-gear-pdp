@@ -1,8 +1,8 @@
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, type ReactElement } from 'react';
 import type { PrimaryImageProps } from './PrimaryImage.types';
 import styles from './PrimaryImage.module.scss';
 
-export function PrimaryImage({ src, alt }: PrimaryImageProps) {
+export function PrimaryImage({ src, alt }: PrimaryImageProps): ReactElement {
   const imageRef = useRef<HTMLImageElement>(null);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
@@ -24,7 +24,6 @@ export function PrimaryImage({ src, alt }: PrimaryImageProps) {
       className={styles.container}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      aria-label="Product image zoom area"
     >
       <img
         ref={imageRef}
