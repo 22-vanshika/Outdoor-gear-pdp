@@ -58,6 +58,7 @@ $color-on-error-container:    #93000a;
 // Spacing
 // -----------------------------------------------------------------------------
 
+$spacing-2xs:             6px;
 $spacing-xs:              4px;
 $spacing-sm:              12px;
 $spacing-md:              24px;
@@ -67,17 +68,18 @@ $spacing-gutter:          24px;
 $spacing-margin:          32px;
 $spacing-margin-mobile:   20px;
 $spacing-margin-desktop:  64px;
-$max-width:               1440px;
+$max-width:               1280px;
 $spacing-unit:            8px;
 
 // -----------------------------------------------------------------------------
 // Border radius
 // -----------------------------------------------------------------------------
 
-$radius-default:  2px;
-$radius-sm:       4px;
-$radius-md:       8px;
-$radius-lg:       12px;    // "full" in Stitch config
+$radius-sm:       2px;     // 0.125rem
+$radius-default:  4px;     // 0.25rem
+$radius-md:       6px;     // 0.375rem
+$radius-lg:       8px;     // 0.5rem
+$radius-xl:       12px;    // 0.75rem
 $radius-full:     9999px;  // pill / circle
 
 // -----------------------------------------------------------------------------
@@ -87,6 +89,7 @@ $radius-full:     9999px;  // pill / circle
 $font-primary:  'Space Grotesk', sans-serif;
 $font-mono:     'JetBrains Mono', monospace;
 
+$font-size-2xs:         10px;
 $font-size-xs:          12px;
 $font-size-sm:          14px;
 $font-size-base:        16px;
@@ -137,7 +140,7 @@ $transition-slow:    300ms ease;
 // Gallery
 // -----------------------------------------------------------------------------
 
-$gallery-aspect-desktop:  '4 / 5';
-$gallery-aspect-mobile:   '4 / 5';
+$gallery-aspect-desktop:  '1 / 1';
+$gallery-aspect-mobile:   '1 / 1';
 $thumbnail-size:          80px;
 $thumbnail-radius:        $radius-md;
