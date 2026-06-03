@@ -1,0 +1,191 @@
+@use '@/styles/tokens' as *;
+@use '@/styles/breakpoints' as *;
+
+.gallery {
+  display: flex;
+  flex-direction: column;
+}
+
+.primary-wrapper {
+  position: relative;
+}
+
+// ─── Desktop: bottom-left series badge ───────────────────────────────────────
+
+.badge-series {
+  position: absolute;
+  bottom: -#{$spacing-md};
+  left: -#{$spacing-md};
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  background-color: $color-inverse-surface;
+  color: $color-inverse-on-surface;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-xl;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  z-index: $z-overlay;
+  white-space: nowrap;
+
+  @include mobile {
+    display: none;
+  }
+}
+
+.badge-series__icon {
+  font-size: $font-size-lg;
+  color: $color-primary-fixed-dim;
+}
+
+.badge-series__label {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  letter-spacing: $letter-spacing-widest;
+  text-transform: uppercase;
+}
+
+// ─── Mobile only: vertical label top-left ────────────────────────────────────
+
+.badge-vertical {
+  display: none;
+
+  @include mobile {
+    display: flex;
+    position: absolute;
+    top: $spacing-xl;
+    left: 0;
+    z-index: $z-overlay;
+  }
+}
+
+.badge-vertical__text {
+  display: block;
+  background-color: $color-primary;
+  color: $color-on-primary;
+  font-family: $font-mono;
+  font-size: $spacing-unit;
+  font-weight: $font-weight-bold;
+  letter-spacing: $letter-spacing-widest;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: $spacing-2xs $spacing-sm;
+  border-radius: $radius-default;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+// ─── Desktop only: floating icon badge right side ────────────────────────────
+
+.badge-float {
+  position: absolute;
+  top: 50%;
+  right: -#{$spacing-md};
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: $color-surface-container-lowest;
+  border: 1px solid $color-outline-variant;
+  border-radius: $radius-full;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  z-index: $z-overlay;
+
+  @include mobile {
+    display: none;
+  }
+}
+
+.badge-float__icon {
+  font-size: 24px;
+  color: $color-on-surface-variant;
+}
+
+// ─── Both viewports: rotating circular badge top-right ───────────────────────
+
+.badge-circular {
+  position: absolute;
+  top: -#{$spacing-xs};
+  right: -#{$spacing-md};
+  width: 120px;
+  height: 120px;
+  z-index: 1;
+  pointer-events: none;
+
+  @include mobile {
+    top: -#{$spacing-sm};
+    right: $spacing-sm;
+    width: 90px;
+    height: 90px;
+    z-index: 3;
+  }
+}
+
+.badge-circular__ring {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  animation: rotate-badge 12s linear infinite;
+}
+
+.badge-circular__svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.badge-circular__text {
+  font-family: $font-mono;
+  font-weight: $font-weight-bold;
+  fill: $color-primary;
+
+  // Desktop: subtle/faded
+  @include desktop {
+    fill: $color-on-surface;
+    opacity: 0.2;
+  }
+
+  // Mobile: more visible in primary colour
+  @include mobile {
+    fill: $color-primary;
+    opacity: 1;
+  }
+}
+
+.badge-circular__text--desktop {
+  font-size: $font-size-2xs;
+  letter-spacing: 1.2px;
+
+  @include mobile {
+    display: none;
+  }
+}
+
+.badge-circular__text--mobile {
+  font-size: $spacing-unit; // 8px to fit the smaller radius
+  letter-spacing: 0.8px;
+
+  @include desktop {
+    display: none;
+  }
+}
+
+.badge-circular__center-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  color: $color-primary;
+
+  // Desktop: hide center icon
+  @include desktop {
+    display: none;
+  }
+}
+
+@keyframes rotate-badge {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}

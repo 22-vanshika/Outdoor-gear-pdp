@@ -1,0 +1,7 @@
+@use '@/styles/tokens' as *;
+
+.container {
+  max-width: 600px; // Testing width for image gallery
+  margin: $spacing-md auto;
+  padding: 0 $spacing-sm;
+}
