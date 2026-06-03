@@ -1,12 +1,14 @@
-/* eslint-disable react-hooks/set-state-in-effect */
 import { useState, type ReactElement } from 'react';
 import { ImageGallery } from '@/components/gallery';
 import { ProductInfo } from '@/components/product';
 import { Navbar } from '@/components/layout';
+import { CartDrawer } from '@/components/cart';
+import { useCartContext } from '@/stores';
 import { useProduct } from '@/hooks';
 import styles from './App.module.scss';
 
 function App(): ReactElement {
+  const { isCartOpen, closeCart } = useCartContext();
   const { product, isLoading, error } = useProduct('1');
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
 
@@ -51,6 +53,7 @@ function App(): ReactElement {
           </div>
         </div>
       </div>
+      <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
     </>
   );
 }

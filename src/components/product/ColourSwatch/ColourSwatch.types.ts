@@ -1,7 +1,7 @@
-import type { Colour } from '@/types';
+import type { ColourVariant } from '@/types';
 
 export interface ColourSwatchProps {
-  colours: Colour[];
+  colours: ColourVariant[];
   activeColourId: string;
   onSelect: (colourId: string) => void;
 }

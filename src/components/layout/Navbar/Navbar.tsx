@@ -12,7 +12,7 @@ const NAV_LINKS = [
 
 export function Navbar({ onMenuToggle }: NavbarProps): ReactElement {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { totalItems } = useCartContext();
+  const { totalItems, openCart } = useCartContext();
 
   const handleMenuToggle = (): void => {
     const newState = !isMenuOpen;
@@ -65,7 +65,8 @@ export function Navbar({ onMenuToggle }: NavbarProps): ReactElement {
         </button>
         <button
           className={styles['icon-btn']}
-          aria-label="Shopping cart"
+          aria-label={`Shopping cart, ${totalItems} item${totalItems !== 1 ? 's' : ''}`}
+          onClick={openCart}
         >
           <span className="material-symbols-outlined">shopping_bag</span>
           {totalItems > 0 && (

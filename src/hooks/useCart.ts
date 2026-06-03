@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { useCartContext } from '@/stores';
 import { addToCart as addToCartService } from '@/services';
 import type { CartItem, EnrichedProduct } from '@/types';
+import { MAX_QUANTITY_PER_ORDER } from '@/constants';
 import type { AddToCartState } from '@/components/product';
 
 interface UseCartReturn {
@@ -41,6 +42,10 @@ export function useCart(): UseCartReturn {
           colourId,
           sizeId,
           quantity,
+          maxQuantity: Math.min(
+            product.variants.colours.find((c) => c.id === colourId)?.sizes.find((s) => s.id === sizeId)?.stock ?? 1,
+            MAX_QUANTITY_PER_ORDER
+          ),
         });
         setCartState('success');
       } catch {

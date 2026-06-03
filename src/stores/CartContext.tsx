@@ -36,6 +36,9 @@ interface CartContextValue {
   items: CartItem[];
   totalItems: number;
   totalPrice: number;
+  isCartOpen: boolean;
+  openCart: () => void;
+  closeCart: () => void;
   addItem: (item: CartItem) => void;
   removeItem: (productId: number, colourId: string, sizeId: string) => void;
   updateQuantity: (productId: number, colourId: string, sizeId: string, quantity: number) => void;
@@ -53,7 +56,10 @@ interface CartProviderProps {
 export function CartProvider({ children }: CartProviderProps): ReactElement {
   // Lazy initialiser — reads localStorage once at mount, no flash-of-empty-cart
   const [items, setItems] = useState<CartItem[]>(() => readCartFromStorage());
+  const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
 
+  const openCart = useCallback((): void => setIsCartOpen(true), []);
+  const closeCart = useCallback((): void => setIsCartOpen(false), []);
 
   const addItem = useCallback((incoming: CartItem): void => {
     setItems((prev) => {
@@ -132,7 +138,18 @@ export function CartProvider({ children }: CartProviderProps): ReactElement {
 
   return (
     <CartContext.Provider
-      value={{ items, totalItems, totalPrice, addItem, removeItem, updateQuantity, clearCart }}
+      value={{
+        items,
+        totalItems,
+        totalPrice,
+        isCartOpen,
+        openCart,
+        closeCart,
+        addItem,
+        removeItem,
+        updateQuantity,
+        clearCart,
+      }}
     >
       {children}
     </CartContext.Provider>
