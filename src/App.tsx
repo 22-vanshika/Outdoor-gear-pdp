@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/set-state-in-effect */
-import { useState, useEffect, type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import { ImageGallery } from '@/components/gallery';
 import { ProductInfo } from '@/components/product';
 import { Navbar } from '@/components/layout';
@@ -8,15 +8,7 @@ import styles from './App.module.scss';
 
 function App(): ReactElement {
   const { product, isLoading, error } = useProduct('1');
-  const [activeColourId, setActiveColourId] = useState<string>('');
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
-
-  // Initialize once product is loaded
-  useEffect(() => {
-    if (product?.variants.colours[0]?.id) {
-      setActiveColourId(product.variants.colours[0].id);
-    }
-  }, [product]);
 
   if (isLoading) {
     return (
@@ -34,13 +26,6 @@ function App(): ReactElement {
     );
   }
 
-  const handleColourChange = (colourId: string) => {
-    setActiveColourId(colourId);
-    const idx = product.variants.colours.findIndex((c) => c.id === colourId);
-    if (idx !== -1 && idx < product.images.length) {
-      setActiveImageIndex(idx);
-    }
-  };
 
   const handleImageSelect = (index: number) => {
     setActiveImageIndex(index);
@@ -62,8 +47,6 @@ function App(): ReactElement {
           <div className={styles['info-col']}>
             <ProductInfo
               product={product}
-              activeColourId={activeColourId}
-              onColourChange={handleColourChange}
             />
           </div>
         </div>

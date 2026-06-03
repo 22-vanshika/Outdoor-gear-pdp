@@ -2,17 +2,22 @@ import type { ReactElement } from 'react';
 import type { AddToCartButtonProps } from './AddToCartButton.types';
 import styles from './AddToCartButton.module.scss';
 
-function getLabel(state: AddToCartButtonProps['state'], isSoldOut: boolean): string {
+function getLabel(
+  state: AddToCartButtonProps['state'],
+  isSoldOut: boolean,
+  isMaxedOut: boolean
+): string {
   if (isSoldOut) return 'Sold Out';
+  if (isMaxedOut) return 'Max Added';
   if (state === 'loading') return 'Adding...';
   if (state === 'success') return 'Added!';
   if (state === 'error') return 'Try Again';
   return 'Add to Cart';
 }
 
-export function AddToCartButton({ state, isSoldOut, onClick }: AddToCartButtonProps): ReactElement {
-  const isDisabled = isSoldOut || state === 'loading';
-  const label = getLabel(state, isSoldOut);
+export function AddToCartButton({ state, isSoldOut, isMaxedOut, onClick }: AddToCartButtonProps): ReactElement {
+  const isDisabled = isSoldOut || isMaxedOut || state === 'loading';
+  const label = getLabel(state, isSoldOut, isMaxedOut);
 
   return (
     <div>

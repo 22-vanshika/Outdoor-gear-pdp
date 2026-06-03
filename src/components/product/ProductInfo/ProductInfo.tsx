@@ -1,4 +1,4 @@
-import { useState, type ReactElement } from 'react';
+import { useState, useEffect, type ReactElement } from 'react';
 import type { ProductInfoProps } from './ProductInfo.types';
 import {
   PriceDisplay,
@@ -8,60 +8,53 @@ import {
   AddToCartButton,
   DeliveryEstimate,
 } from '@/components/product';
-import type { AddToCartState } from '@/components/product';
-import { addToCart } from '@/services';
 import { MIN_QUANTITY, MAX_QUANTITY_PER_ORDER } from '@/constants';
 import styles from './ProductInfo.module.scss';
+import { useCart, useVariant } from '@/hooks';
 
-export function ProductInfo({ product, activeColourId: propsActiveColourId, onColourChange }: ProductInfoProps): ReactElement {
-  const [internalColourId, setInternalColourId] = useState<string>(
-    product.variants.colours[0]?.id ?? ''
-  );
-  const activeColourId = propsActiveColourId !== undefined ? propsActiveColourId : internalColourId;
+export function ProductInfo({ product }: ProductInfoProps): ReactElement {
+  const { activeColourId, activeSizeId, setActiveColourId, setActiveSizeId } =
+    useVariant(product.variants.colours, product.variants.sizes);
 
-  const [activeSizeId, setActiveSizeId] = useState<string | null>(null);
   const [quantity, setQuantity] = useState<number>(MIN_QUANTITY);
-  const [cartState, setCartState] = useState<AddToCartState>('idle');
   const [sizeError, setSizeError] = useState<string | null>(null);
 
+  const { cartState, handleAddToCart, items } = useCart();
+
   const activeSize = product.variants.sizes.find((s) => s.id === activeSizeId);
-  const isSoldOut = activeSize?.status === 'sold_out';
-  const maxQty = Math.min(activeSize?.stock ?? MAX_QUANTITY_PER_ORDER, MAX_QUANTITY_PER_ORDER);
+  const isSoldOut = activeSize?.status === 'sold_out' || !activeSizeId;
+  const cartQuantity = items.find(
+    (i) =>
+      i.productId === product.id &&
+      i.colourId === activeColourId &&
+      i.sizeId === activeSizeId
+  )?.quantity ?? 0;
 
-  const handleSelectColour = (colourId: string): void => {
-    if (onColourChange) {
-      onColourChange(colourId);
-    } else {
-      setInternalColourId(colourId);
+  const stockAvailable = activeSize?.stock ?? 0;
+  const maxQty = Math.min(stockAvailable, MAX_QUANTITY_PER_ORDER);
+  const remainingQty = maxQty - cartQuantity;
+  const isMaxedOut = cartQuantity >= maxQty && !isSoldOut;
+
+  useEffect(() => {
+    if (quantity > remainingQty && remainingQty > 0) {
+      setQuantity(remainingQty);
     }
-  };
+  }, [remainingQty, quantity]);
 
-  const handleSelectSize = (sizeId: string): void => {
-    setActiveSizeId(sizeId);
+  function handleSizeSelect(id: string): void {
+    setActiveSizeId(id);
+    setQuantity(MIN_QUANTITY);
     setSizeError(null);
-  };
+  }
 
-  async function handleAddToCart(): Promise<void> {
+  async function onAddToCart(): Promise<void> {
     if (!activeSizeId) {
       setSizeError('Please select a volume option');
       return;
     }
-    if (isSoldOut) return;
+    if (isMaxedOut) return;
     setSizeError(null);
-    setCartState('loading');
-    try {
-      await addToCart({
-        productId: product.id,
-        colourId: activeColourId,
-        sizeId: activeSizeId,
-        quantity,
-      });
-      setCartState('success');
-    } catch {
-      setCartState('error');
-    } finally {
-      setTimeout(() => setCartState('idle'), 2000);
-    }
+    await handleAddToCart(product, activeColourId, activeSizeId, quantity);
   }
 
   const renderTitle = (): ReactElement => {
@@ -126,7 +119,7 @@ export function ProductInfo({ product, activeColourId: propsActiveColourId, onCo
         <ColourSwatch
           colours={product.variants.colours}
           activeColourId={activeColourId}
-          onSelect={handleSelectColour}
+          onSelect={setActiveColourId}
         />
       </div>
 
@@ -135,7 +128,7 @@ export function ProductInfo({ product, activeColourId: propsActiveColourId, onCo
         <SizeSelector
           sizes={product.variants.sizes}
           activeSizeId={activeSizeId}
-          onSelect={handleSelectSize}
+          onSelect={handleSizeSelect}
         />
         {sizeError && (
           <p className={styles['size-error']} role="alert">{sizeError}</p>
@@ -147,13 +140,14 @@ export function ProductInfo({ product, activeColourId: propsActiveColourId, onCo
         <QuantityPicker
           value={quantity}
           min={MIN_QUANTITY}
-          max={maxQty}
+          max={remainingQty}
           onChange={setQuantity}
         />
         <AddToCartButton
           state={cartState}
           isSoldOut={isSoldOut}
-          onClick={handleAddToCart}
+          isMaxedOut={isMaxedOut}
+          onClick={onAddToCart}
         />
         <DeliveryEstimate />
       </div>
@@ -164,7 +158,7 @@ export function ProductInfo({ product, activeColourId: propsActiveColourId, onCo
           <QuantityPicker
             value={quantity}
             min={MIN_QUANTITY}
-            max={maxQty}
+            max={remainingQty}
             onChange={setQuantity}
             showMaxLabel={false}
           />
@@ -173,7 +167,8 @@ export function ProductInfo({ product, activeColourId: propsActiveColourId, onCo
           <AddToCartButton
             state={cartState}
             isSoldOut={isSoldOut}
-            onClick={handleAddToCart}
+            isMaxedOut={isMaxedOut}
+            onClick={onAddToCart}
           />
         </div>
       </div>
