@@ -1,0 +1,9 @@
+// Forward tokens and breakpoints so all partials can access them
+@forward 'tokens';
+@forward 'breakpoints';
+
+// Load global styles
+@use 'tokens' as *;
+@use 'breakpoints' as *;
+@use 'reset';
+@use 'typography';

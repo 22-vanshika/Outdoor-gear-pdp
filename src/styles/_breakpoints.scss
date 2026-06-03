@@ -1,0 +1,19 @@
+// =============================================================================
+// BREAKPOINTS
+// One breakpoint. Everything else is mobile or desktop.
+// Never write a raw px value in a media query anywhere else.
+// =============================================================================
+
+$bp-mobile: 767px;
+
+@mixin mobile {
+  @media (max-width: #{$bp-mobile}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$bp-mobile + 1px}) {
+    @content;
+  }
+}

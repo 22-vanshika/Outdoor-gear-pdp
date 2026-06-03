@@ -1,0 +1,29 @@
+@use 'tokens' as *;
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap');
+
+body {
+  font-family: $font-primary;
+  font-size: $font-size-base;
+  color: $color-on-surface;
+  background-color: $color-background;
+}
+
+// Type utility classes — use sparingly, only for cross-cutting concerns
+// Component-specific type styles belong in the component's .module.scss
+
+.t-label-technical {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  letter-spacing: $letter-spacing-widest;
+  text-transform: uppercase;
+}
+
+.t-label-cta {
+  font-family: $font-primary;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  letter-spacing: $letter-spacing-wide;
+  text-transform: uppercase;
+}
