@@ -2,6 +2,7 @@
 import { useState, useEffect, type ReactElement } from 'react';
 import { ImageGallery } from '@/components/gallery';
 import { ProductInfo } from '@/components/product';
+import { Navbar } from '@/components/layout';
 import { useProduct } from '@/hooks';
 import styles from './App.module.scss';
 
@@ -46,25 +47,28 @@ function App(): ReactElement {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.layout}>
-        <div className={styles['gallery-col']}>
-          <ImageGallery
-            images={product.images}
-            productName={product.title}
-            activeIndex={activeImageIndex}
-            onSelectIndex={handleImageSelect}
-          />
-        </div>
-        <div className={styles['info-col']}>
-          <ProductInfo
-            product={product}
-            activeColourId={activeColourId}
-            onColourChange={handleColourChange}
-          />
+    <>
+      <Navbar />
+      <div className={styles.container}>
+        <div className={styles.layout}>
+          <div className={styles['gallery-col']}>
+            <ImageGallery
+              images={product.images}
+              productName={product.title}
+              activeIndex={activeImageIndex}
+              onSelectIndex={handleImageSelect}
+            />
+          </div>
+          <div className={styles['info-col']}>
+            <ProductInfo
+              product={product}
+              activeColourId={activeColourId}
+              onColourChange={handleColourChange}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
