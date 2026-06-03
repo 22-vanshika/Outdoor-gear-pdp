@@ -1,0 +1,319 @@
+@use '@/styles/tokens' as *;
+@use '@/styles/breakpoints' as *;
+
+// ─── Overlay ──────────────────────────────────────────────────────────────────
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba($color-inverse-surface, 0.4);
+  z-index: $z-modal;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity $transition-default;
+
+  &--visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+// ─── Drawer ───────────────────────────────────────────────────────────────────
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 420px;
+  max-width: 100vw;
+  background-color: $color-surface;
+  z-index: $z-modal;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform $transition-slow;
+  box-shadow: -4px 0 32px rgba($color-inverse-surface, 0.12);
+
+  &--open {
+    transform: translateX(0);
+  }
+
+  @include mobile {
+    width: 100%;
+    top: auto;
+    bottom: 0;
+    height: 90vh;
+    border-radius: $radius-xl $radius-xl 0 0;
+    transform: translateY(100%);
+
+    &--open {
+      transform: translateY(0);
+    }
+  }
+}
+
+// ─── Header ───────────────────────────────────────────────────────────────────
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-md;
+  border-bottom: 1px solid $color-outline-variant;
+  flex-shrink: 0;
+}
+
+.header__title {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  letter-spacing: $letter-spacing-widest;
+  text-transform: uppercase;
+  color: $color-on-surface;
+}
+
+.header__count {
+  color: $color-primary;
+}
+
+.close-btn {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-full;
+  color: $color-on-surface-variant;
+  transition: background-color $transition-fast;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $color-surface-container;
+  }
+}
+
+// ─── Items list ───────────────────────────────────────────────────────────────
+
+.items {
+  flex: 1;
+  overflow-y: auto;
+  padding: $spacing-md;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: $color-outline-variant; }
+}
+
+.empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-md;
+  padding: $spacing-lg;
+}
+
+.empty__icon {
+  font-size: 48px;
+  color: $color-outline-variant;
+}
+
+.empty__text {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  letter-spacing: $letter-spacing-widest;
+  text-transform: uppercase;
+  color: $color-on-surface-variant;
+  opacity: 0.6;
+}
+
+// ─── Cart item ────────────────────────────────────────────────────────────────
+
+.item {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: $spacing-sm;
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid $color-outline-variant;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.item__image {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: $radius-md;
+  background-color: $color-surface-container;
+}
+
+.item__details {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2xs;
+}
+
+.item__title {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-on-surface;
+  line-height: $line-height-snug;
+}
+
+.item__variant {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  color: $color-on-surface-variant;
+  text-transform: uppercase;
+  letter-spacing: $letter-spacing-wide;
+  opacity: 0.7;
+}
+
+.item__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: $spacing-xs;
+}
+
+.item__price {
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  color: $color-on-surface;
+}
+
+.item__actions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+}
+
+.qty-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $color-outline-variant;
+  border-radius: $radius-default;
+  color: $color-on-surface;
+  transition: background-color $transition-fast;
+  font-size: 16px;
+  background: transparent;
+  cursor: pointer;
+
+  &:hover { background-color: $color-surface-container; }
+  &:disabled { opacity: 0.3; cursor: not-allowed; }
+}
+
+.qty-value {
+  width: 24px;
+  text-align: center;
+  font-weight: $font-weight-bold;
+  font-size: $font-size-sm;
+  color: $color-on-surface;
+}
+
+.remove-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-error;
+  border-radius: $radius-default;
+  transition: background-color $transition-fast;
+  margin-left: $spacing-xs;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  &:hover { background-color: rgba($color-error, 0.08); }
+}
+
+// ─── Footer ───────────────────────────────────────────────────────────────────
+
+.footer {
+  padding: $spacing-md;
+  border-top: 1px solid $color-outline-variant;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  flex-shrink: 0;
+  background-color: $color-surface;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  color: $color-on-surface-variant;
+  text-transform: uppercase;
+  letter-spacing: $letter-spacing-wide;
+}
+
+.summary-row--total {
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  color: $color-on-surface;
+  padding-top: $spacing-sm;
+  border-top: 1px solid $color-outline-variant;
+}
+
+.checkout-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  background-color: $color-primary;
+  color: $color-on-primary;
+  font-family: $font-primary;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  letter-spacing: $letter-spacing-widest;
+  text-transform: uppercase;
+  padding: $spacing-md;
+  border-radius: $radius-lg;
+  transition: background-color $transition-default, transform $transition-fast;
+  margin-top: $spacing-xs;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $color-primary-container;
+    transform: translateY(-1px);
+  }
+}
+
+.continue-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  letter-spacing: $letter-spacing-widest;
+  text-transform: uppercase;
+  color: $color-on-surface-variant;
+  padding: $spacing-sm;
+  border-radius: $radius-lg;
+  transition: color $transition-fast;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:hover { color: $color-on-surface; }
+}

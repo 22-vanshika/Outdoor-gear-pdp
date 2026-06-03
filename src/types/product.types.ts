@@ -1,12 +1,6 @@
 export type StockStatus = 'available' | 'low_stock' | 'sold_out';
 
-export interface Colour {
-  id: string;
-  label: string;
-  hex: string;
-}
-
-export interface Size {
+export interface SizeStock {
   id: string;
   label: string;
   description: string;
@@ -14,10 +8,20 @@ export interface Size {
   status: StockStatus;
 }
 
-export interface VariantConfig {
-  colours: Colour[];
-  sizes: Size[];
+export interface ColourVariant {
+  id: string;
+  label: string;
+  hex: string;
+  sizes: SizeStock[];
 }
+
+export interface VariantConfig {
+  colours: ColourVariant[];
+}
+
+// Keep Colour and Size as aliases for backwards compat in components
+export type Colour = Pick<ColourVariant, 'id' | 'label' | 'hex'>;
+export type Size = SizeStock;
 
 export interface NormalisedProduct {
   id: number;

@@ -6,6 +6,7 @@ export interface CartItem {
   colourId: string;
   sizeId: string;
   quantity: number;
+  maxQuantity: number;
 }
 
 export interface CartState {

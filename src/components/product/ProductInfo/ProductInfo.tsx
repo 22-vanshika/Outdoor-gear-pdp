@@ -1,4 +1,4 @@
-import { useState, useEffect, type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 import type { ProductInfoProps } from './ProductInfo.types';
 import {
   PriceDisplay,
@@ -13,15 +13,15 @@ import styles from './ProductInfo.module.scss';
 import { useCart, useVariant } from '@/hooks';
 
 export function ProductInfo({ product }: ProductInfoProps): ReactElement {
-  const { activeColourId, activeSizeId, setActiveColourId, setActiveSizeId } =
-    useVariant(product.variants.colours, product.variants.sizes);
+  const { activeColourId, activeSizeId, activeSizes, setActiveColourId, setActiveSizeId } =
+    useVariant(product.variants.colours);
 
   const [quantity, setQuantity] = useState<number>(MIN_QUANTITY);
   const [sizeError, setSizeError] = useState<string | null>(null);
 
   const { cartState, handleAddToCart, items } = useCart();
 
-  const activeSize = product.variants.sizes.find((s) => s.id === activeSizeId);
+  const activeSize = activeSizes.find((s) => s.id === activeSizeId);
   const isSoldOut = activeSize?.status === 'sold_out' || !activeSizeId;
   const cartQuantity = items.find(
     (i) =>
@@ -35,11 +35,6 @@ export function ProductInfo({ product }: ProductInfoProps): ReactElement {
   const remainingQty = maxQty - cartQuantity;
   const isMaxedOut = cartQuantity >= maxQty && !isSoldOut;
 
-  useEffect(() => {
-    if (quantity > remainingQty && remainingQty > 0) {
-      setQuantity(remainingQty);
-    }
-  }, [remainingQty, quantity]);
 
   function handleSizeSelect(id: string): void {
     setActiveSizeId(id);
@@ -55,6 +50,7 @@ export function ProductInfo({ product }: ProductInfoProps): ReactElement {
     if (isMaxedOut) return;
     setSizeError(null);
     await handleAddToCart(product, activeColourId, activeSizeId, quantity);
+    setQuantity(MIN_QUANTITY);
   }
 
   const renderTitle = (): ReactElement => {
@@ -126,7 +122,7 @@ export function ProductInfo({ product }: ProductInfoProps): ReactElement {
       {/* Size section */}
       <div className={styles['size-section']}>
         <SizeSelector
-          sizes={product.variants.sizes}
+          sizes={activeSizes}
           activeSizeId={activeSizeId}
           onSelect={handleSizeSelect}
         />

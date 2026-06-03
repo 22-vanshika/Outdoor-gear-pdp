@@ -1,4 +1,4 @@
-import type { Colour, Size } from '@/types';
+import type { ColourVariant, SizeStock } from '@/types';
 
 export const URL_PARAMS = {
   COLOUR: 'colour',
@@ -30,15 +30,15 @@ export function setVariantInURL(colourId: string, sizeId: string | null): void {
   window.history.replaceState(null, '', newURL);
 }
 
-export function getInitialColour(colours: Colour[]): string {
+export function getInitialColour(colours: ColourVariant[]): string {
   const { colourId } = getVariantFromURL();
   const fromURL = colours.find((c) => c.id === colourId);
   return fromURL?.id ?? colours[0]?.id ?? '';
 }
 
-export function getInitialSize(sizes: Size[]): string | null {
+export function getInitialSize(sizes: SizeStock[]): string | null {
   const { sizeId } = getVariantFromURL();
   const fromURL = sizes.find((s) => s.id === sizeId && s.status !== 'sold_out');
   if (fromURL) return fromURL.id;
-  return sizes.find((s) => s.status !== 'sold_out')?.id ?? null;
+  return null;
 }
