@@ -2,10 +2,11 @@ import type { FakeStoreProduct } from '@/types/api.types';
 import type { EnrichedProduct } from '@/types/product.types';
 import type { FullVariantConfig } from '@/data/variantConfig';
 import { DEFAULT_VARIANT_CONFIG } from '@/data/variantConfig';
+import { computeOriginalPrice } from '@/utils';
 
 export function enrichProduct(raw: FakeStoreProduct, config: FullVariantConfig | undefined): EnrichedProduct {
   const originalPrice = config
-    ? parseFloat((raw.price * (1 + config.override.saleDiscount / 100)).toFixed(2))
+    ? computeOriginalPrice(raw.price, config.override.saleDiscount)
     : raw.price;
 
   return {

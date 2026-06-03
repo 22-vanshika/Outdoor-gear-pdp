@@ -2,12 +2,7 @@ import type { ReactElement } from 'react';
 import type { PriceDisplayProps } from './PriceDisplay.types';
 import styles from './PriceDisplay.module.scss';
 
-function formatPrice(amount: number): string {
-  return new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
-  }).format(amount);
-}
+import { formatPrice } from '@/utils';
 
 export function PriceDisplay({
   price,

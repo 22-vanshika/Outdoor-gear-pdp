@@ -1,11 +1,5 @@
-import type { VariantConfig, StockStatus } from '@/types';
-import { LOW_STOCK_THRESHOLD } from '@/constants';
-
-function deriveStatus(stock: number): StockStatus {
-  if (stock === 0) return 'sold_out' as const;
-  if (stock <= LOW_STOCK_THRESHOLD) return 'low_stock' as const;
-  return 'available' as const;
-}
+import type { VariantConfig } from '@/types';
+import { deriveStockStatus } from '@/utils';
 
 export interface ProductOverride {
   title: string;
@@ -46,11 +40,11 @@ export const VARIANT_CONFIG: Record<number, FullVariantConfig> = {
         { id: 'obsidian-black',  label: 'Obsidian Black', hex: '#1A1C1E' },
       ],
       sizes: [
-        { id: '15l', label: '15L', description: 'Ultralight', stock: 6,  status: deriveStatus(6)  },
-        { id: '20l', label: '20L', description: 'Standard',   stock: 8,  status: deriveStatus(8)  },
-        { id: '30l', label: '30L', description: 'Extended',   stock: 2,  status: deriveStatus(2)  },
-        { id: '40l', label: '40L', description: 'Expedition', stock: 0,  status: deriveStatus(0)  },
-        { id: '50l', label: '50L', description: 'Max Load',   stock: 4,  status: deriveStatus(4)  },
+        { id: '15l', label: '15L', description: 'Ultralight', stock: 6,  status: deriveStockStatus(6)  },
+        { id: '20l', label: '20L', description: 'Standard',   stock: 8,  status: deriveStockStatus(8)  },
+        { id: '30l', label: '30L', description: 'Extended',   stock: 2,  status: deriveStockStatus(2)  },
+        { id: '40l', label: '40L', description: 'Expedition', stock: 0,  status: deriveStockStatus(0)  },
+        { id: '50l', label: '50L', description: 'Max Load',   stock: 4,  status: deriveStockStatus(4)  },
       ],
     },
   },
@@ -61,6 +55,6 @@ export const DEFAULT_VARIANT_CONFIG: VariantConfig = {
     { id: 'default', label: 'Default', hex: '#8b4a32' },
   ],
   sizes: [
-    { id: 'one-size', label: 'One Size', description: 'Standard', stock: 5, status: deriveStatus(5) },
+    { id: 'one-size', label: 'One Size', description: 'Standard', stock: 5, status: deriveStockStatus(5) },
   ],
 };

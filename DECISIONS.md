@@ -180,3 +180,79 @@ image should use `fetchpriority="high"` to improve LCP.
 The current error state in `useProduct` renders an inline error message. A proper
 implementation would use a React error boundary component so API failures don't
 break the entire page render.
+
+## Decision #6 — Cart State Architecture
+
+**Chose: React Context API with localStorage lazy initialiser**
+
+Three things needed to be true simultaneously:
+
+1. Cart survives a page refresh
+2. No flash of empty cart on load
+3. Any component can read the cart without prop drilling
+
+The lazy `useState` initialiser (`useState(() => readCartFromStorage())`)
+solves all three. It reads localStorage synchronously on the first render,
+so the cart is populated before the first paint — no `useEffect` delay,
+no empty-then-populated flicker. This pattern is correct for a Vite SPA
+with no server-side rendering. The `useEffect` pattern (read after mount)
+is the right default for SSR apps where hydration mismatches matter — it
+is not the right default here.
+
+`writeCartToStorage` is called inside the `setItems` functional updater
+rather than in a separate `useEffect`. This guarantees localStorage is
+always written atomically with the state update — there is no window
+where React state and localStorage can be out of sync.
+
+Cart item identity is defined as `(productId + colourId + sizeId)`. Adding
+the same combination increments quantity rather than creating a duplicate
+entry. This matches ecommerce convention and keeps the cart array clean.
+
+`clearCart` calls `localStorage.removeItem` rather than writing `'[]'` —
+removing the key entirely is cleaner storage hygiene and means
+`readCartFromStorage` correctly returns `[]` on a missing key.
+
+---
+
+## Decision #7 — URL Variant Deep-Linking
+
+**Chose: window.history.replaceState with validation on rehydration**
+
+Selected colour and size are persisted in the URL as query parameters:
+`?colour=slate-blue&size=20l`
+
+`replaceState` is used instead of `pushState` — selecting a colour or
+size is not a navigation event and should not create browser history
+entries. The back button should not cycle through variant selections.
+
+On page load, `getInitialColour` and `getInitialSize` validate the URL
+params against the actual variant arrays before applying them. If the URL
+contains a colour that doesn't exist (e.g. a stale link), it falls back
+to the first available colour. If the URL contains a sold-out size, it
+falls back to the first available size. The page is always in a valid
+state regardless of what the URL contains.
+
+All `window.location` and `window.history` access is encapsulated in
+`utils/url.utils.ts`. No component touches these APIs directly.
+
+---
+
+## Decision #8 — Max Quantity Enforcement
+
+**Chose: Derived state from cart items, not stored state**
+
+The "maxed out" state for a variant is computed as:
+`cartQuantity >= maxQty` where `maxQty = Math.min(stock, MAX_QUANTITY_PER_ORDER)`
+and `cartQuantity` is read live from the cart items array.
+
+This is derived state — `isMaxedOut` is never stored in `useState`. The
+single source of truth is the cart items array in `CartContext`. Any
+component that needs to know if a variant is maxed out reads from the
+cart and computes it. This eliminates the possibility of the stored
+maxed-out flag drifting out of sync with the actual cart contents.
+
+The quantity picker is capped at `remainingQty` (stock minus what's
+already in cart) rather than total stock. This prevents the user from
+selecting a quantity that would exceed the stock limit given what's
+already in their cart. The quantity resets to 1 when the size selection
+changes — a new size is a fresh selection with its own remaining stock.
