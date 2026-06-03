@@ -76,9 +76,6 @@
   height: 8px;
   border-radius: $radius-full;
   background-color: $color-outline-variant;
-  border: none;
-  padding: 0;
-  cursor: pointer;
   transition:
     background-color $transition-fast,
     transform $transition-fast;

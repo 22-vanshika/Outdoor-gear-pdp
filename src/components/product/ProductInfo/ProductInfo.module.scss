@@ -1,0 +1,216 @@
+@use '@/styles/tokens' as *;
+@use '@/styles/breakpoints' as *;
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  // Gap is removed entirely to allow section-by-section margin-bottom spacing control
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  margin-bottom: $spacing-sm;
+
+  @include desktop {
+    display: none;
+  }
+}
+
+.badge-series {
+  font-family: $font-mono;
+  font-size: $font-size-2xs;
+  font-weight: $font-weight-bold;
+  letter-spacing: $letter-spacing-widest;
+  text-transform: uppercase;
+  color: $color-primary;
+  background-color: rgba($color-primary, 0.08);
+  border: 1px solid rgba($color-primary, 0.25);
+  padding: 3px $spacing-sm;
+  line-height: 1.0;
+}
+
+.badge-year {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  letter-spacing: $letter-spacing-widest;
+  text-transform: uppercase;
+  color: $color-on-surface-variant;
+
+  @include mobile {
+    display: none;
+  }
+}
+
+// Mobile title
+.title {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-on-surface;
+  line-height: $line-height-snug;
+  margin-bottom: $spacing-md;
+
+  @include desktop {
+    font-size: $font-size-4xl;
+    font-weight: $font-weight-bold;
+    line-height: 1.0;
+    letter-spacing: $letter-spacing-tight;
+  }
+}
+
+// Accent word in primary italic (desktop only)
+.title__accent {
+  color: $color-primary;
+  font-style: italic;
+  font-family: Georgia, serif;
+  font-weight: $font-weight-regular;
+
+  @include mobile {
+    color: $color-on-surface;
+    font-style: normal;
+    font-family: $font-primary;
+    font-weight: $font-weight-bold;
+    display: inline;  // stay inline on mobile, don't break to new line
+  }
+
+  @include desktop {
+    display: block;  // break to new line on desktop only
+  }
+}
+
+.breadcrumb {
+  display: none;
+
+  @include desktop {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    font-family: $font-mono;
+    font-size: $font-size-xs;
+    color: $color-on-surface-variant;
+    opacity: 0.7;
+    margin-bottom: $spacing-sm;
+  }
+}
+
+.breadcrumb__sep {
+  font-size: $font-size-sm;
+  padding: 0 $spacing-2xs;
+}
+
+.tagline {
+  display: none;
+
+  @include desktop {
+    display: block;
+    font-size: $font-size-base;
+    color: $color-on-surface-variant;
+    line-height: $line-height-relaxed;
+    max-width: 200px;
+  }
+}
+
+.price-row {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md; // reduced gap on desktop to match Stitch
+  margin-bottom: $spacing-lg; // spacing after price row
+
+  @include desktop {
+    align-items: flex-start;
+    gap: $spacing-md;
+  }
+}
+
+.divider {
+  display: none;
+
+  @include desktop {
+    display: block;
+    width: 1px;
+    height: 48px;
+    background-color: $color-outline-variant;
+    flex-shrink: 0;
+  }
+}
+
+.selection-label {
+  display: none;
+
+  @include desktop {
+    display: block;
+    font-family: $font-mono;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    letter-spacing: $letter-spacing-widest;
+    text-transform: uppercase;
+    color: $color-on-surface-variant;
+    margin-bottom: $spacing-md;
+  }
+}
+
+.colour-section {
+  margin-bottom: $spacing-md;
+}
+
+.size-section {
+  margin-bottom: $spacing-lg;
+}
+
+.size-error {
+  margin-top: $spacing-xs;
+  font-size: $font-size-xs;
+  color: $color-error;
+  font-family: $font-mono;
+}
+
+// Mobile: quantity + CTA hidden inline, shown in fixed bar
+// Desktop: shown inline
+.inline-actions {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  @include mobile {
+    display: none;
+  }
+}
+
+// Mobile sticky bottom bar
+.fixed-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: $color-surface;
+  border-top: 1px solid rgba($color-outline-variant, 0.5);
+  padding: $spacing-sm $spacing-margin-mobile;
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  z-index: $z-sticky-cta;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.05);
+
+  @include desktop {
+    display: none;
+  }
+}
+
+.fixed-bar__qty {
+  flex-shrink: 0;
+}
+
+.fixed-bar__cta {
+  flex: 1;
+  min-width: 0;
+
+  // Force button to fill and not wrap
+  button {
+    width: 100%;
+    white-space: nowrap;
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-xs;
+  }
+}
+

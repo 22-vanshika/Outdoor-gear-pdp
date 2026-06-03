@@ -1,0 +1,64 @@
+@use '@/styles/tokens' as *;
+@use '@/styles/breakpoints' as *;
+
+.btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  background-color: $color-primary;
+  color: $color-on-primary;
+  font-family: $font-primary;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  letter-spacing: $letter-spacing-widest;
+  text-transform: uppercase;
+  padding: $spacing-md $spacing-lg;
+  border-radius: $radius-lg;
+  transition:
+    background-color $transition-default,
+    transform $transition-fast,
+    box-shadow $transition-default;
+
+  &:hover:not(:disabled) {
+    background-color: $color-primary-container;
+    box-shadow: 0 8px 24px rgba($color-primary, 0.3);
+    transform: translateY(-2px);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &--loading {
+    background-color: $color-primary-container;
+    cursor: wait;
+  }
+
+  &--error {
+    background-color: $color-error;
+  }
+}
+
+.btn__icon {
+  font-size: 20px;
+  transition: transform $transition-default;
+}
+
+.btn:hover .btn__icon {
+  transform: translateX(4px);
+}
+
+.error-msg {
+  margin-top: $spacing-sm;
+  font-size: $font-size-xs;
+  color: $color-error;
+  font-family: $font-mono;
+  text-align: center;
+}

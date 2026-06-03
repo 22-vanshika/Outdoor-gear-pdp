@@ -1,24 +1,69 @@
+/* eslint-disable react-hooks/set-state-in-effect */
+import { useState, useEffect, type ReactElement } from 'react';
 import { ImageGallery } from '@/components/gallery';
+import { ProductInfo } from '@/components/product';
+import { useProduct } from '@/hooks';
 import styles from './App.module.scss';
 
-const TEST_IMAGES = [
-  'https://i.pinimg.com/736x/22/0a/81/220a8170609409aa01d6853508a9025c.jpg',
-  'https://i.pinimg.com/736x/42/34/ee/4234ee553eec8f4c5408985ec5f83557.jpg',
-  'https://i.pinimg.com/736x/27/81/e6/2781e607775f355ab25932d96851687b.jpg',
-  'https://i.pinimg.com/736x/af/c8/88/afc888d054a9e6b691ca39cb5194f38a.jpg',
-    'https://i.pinimg.com/736x/22/0a/81/220a8170609409aa01d6853508a9025c.jpg',
-  'https://i.pinimg.com/736x/42/34/ee/4234ee553eec8f4c5408985ec5f83557.jpg',
-  'https://i.pinimg.com/736x/27/81/e6/2781e607775f355ab25932d96851687b.jpg',
-  'https://i.pinimg.com/736x/af/c8/88/afc888d054a9e6b691ca39cb5194f38a.jpg',
-];
+function App(): ReactElement {
+  const { product, isLoading, error } = useProduct('1');
+  const [activeColourId, setActiveColourId] = useState<string>('');
+  const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
 
-function App() {
+  // Initialize once product is loaded
+  useEffect(() => {
+    if (product?.variants.colours[0]?.id) {
+      setActiveColourId(product.variants.colours[0].id);
+    }
+  }, [product]);
+
+  if (isLoading) {
+    return (
+      <div className={styles['loading-container']}>
+        Loading...
+      </div>
+    );
+  }
+
+  if (error || !product) {
+    return (
+      <div className={styles['error-container']}>
+        Error: {error ?? 'Product not found'}
+      </div>
+    );
+  }
+
+  const handleColourChange = (colourId: string) => {
+    setActiveColourId(colourId);
+    const idx = product.variants.colours.findIndex((c) => c.id === colourId);
+    if (idx !== -1 && idx < product.images.length) {
+      setActiveImageIndex(idx);
+    }
+  };
+
+  const handleImageSelect = (index: number) => {
+    setActiveImageIndex(index);
+  };
+
   return (
     <div className={styles.container}>
-      <ImageGallery
-        images={TEST_IMAGES}
-        productName="Alpine Ascent Pack"
-      />
+      <div className={styles.layout}>
+        <div className={styles['gallery-col']}>
+          <ImageGallery
+            images={product.images}
+            productName={product.title}
+            activeIndex={activeImageIndex}
+            onSelectIndex={handleImageSelect}
+          />
+        </div>
+        <div className={styles['info-col']}>
+          <ProductInfo
+            product={product}
+            activeColourId={activeColourId}
+            onColourChange={handleColourChange}
+          />
+        </div>
+      </div>
     </div>
   );
 }

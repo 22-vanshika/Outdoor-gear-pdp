@@ -1,7 +1,56 @@
 @use '@/styles/tokens' as *;
+@use '@/styles/breakpoints' as *;
 
 .container {
-  max-width: 600px; // Testing width for image gallery
-  margin: $spacing-md auto;
-  padding: 0 $spacing-sm;
+  max-width: $max-width; // 1280px
+  margin: 0 auto;
+  padding: $spacing-md $spacing-gutter;
+
+  @include mobile {
+    padding: $spacing-sm $spacing-margin-mobile;
+    padding-bottom: $sticky-bar-safe-padding;
+  }
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+
+  @include desktop {
+    flex-direction: row;
+    gap: $spacing-xl;
+    align-items: flex-start;
+  }
+}
+
+.gallery-col {
+  width: 100%;
+
+  @include desktop {
+    width: 55%;
+    padding-top: $spacing-xl;
+  }
+}
+
+.info-col {
+  width: 100%;
+
+  @include desktop {
+    width: 45%;
+    position: sticky;
+    top: $spacing-md;
+    align-self: flex-start;
+  }
+}
+
+.loading-container,
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  font-family: $font-primary;
+  font-size: $font-size-lg;
+  color: $color-on-surface-variant;
 }

@@ -140,7 +140,13 @@ $transition-slow:    300ms ease;
 // Gallery
 // -----------------------------------------------------------------------------
 
-$gallery-aspect-desktop:  '1 / 1';
-$gallery-aspect-mobile:   '1 / 1';
+$gallery-aspect-desktop:  '3 / 4';
+$gallery-aspect-mobile:   '3 / 4';
 $thumbnail-size:          80px;
 $thumbnail-radius:        $radius-md;
+
+// Spacing & padding tokens to remove magic numbers
+$spacing-2px:             2px;
+$swatch-padding:          3px;
+$sticky-bar-height:       80px;
+$sticky-bar-safe-padding: 120px;

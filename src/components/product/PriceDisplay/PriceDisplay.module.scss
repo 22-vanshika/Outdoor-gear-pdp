@@ -1,0 +1,48 @@
+@use '@/styles/tokens' as *;
+@use '@/styles/breakpoints' as *;
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+
+  @include desktop {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-xs;
+  }
+}
+
+.price {
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-bold;
+  color: $color-on-surface;
+  line-height: $line-height-snug;
+}
+
+.original {
+  font-size: $font-size-lg;
+  color: $color-on-surface-variant;
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.sale-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $spacing-2xs;
+}
+
+.discount-badge {
+  background-color: $color-primary;
+  color: $color-on-primary;
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  letter-spacing: $letter-spacing-wide;
+  text-transform: uppercase;
+  padding: $spacing-2xs $spacing-sm;
+  border-radius: $radius-default;
+}
