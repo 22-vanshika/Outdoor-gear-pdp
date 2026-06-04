@@ -26,11 +26,11 @@ export const VARIANT_CONFIG: Record<number, FullVariantConfig> = {
       isSale: true,
       saleDiscount: 20,
       images: [
-        'https://images.unsplash.com/photo-1621624959365-071359461b94?q=80&w=1064&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        'https://images.unsplash.com/photo-1495745190033-64f95ea0d02f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        'https://images.unsplash.com/photo-1557160836-f3a6d1afaab2?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        'https://images.unsplash.com/photo-1643901947958-fdd7dd3ff77a?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        'https://images.unsplash.com/photo-1622260615656-96d7c7ad6c4c?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+        'https://images.unsplash.com/photo-1621624959365-071359461b94?q=60&w=800&auto=format&fit=crop&fm=webp&ixlib=rb-4.1.0',
+        'https://images.unsplash.com/photo-1495745190033-64f95ea0d02f?q=60&w=800&auto=format&fit=crop&fm=webp&ixlib=rb-4.1.0',
+        'https://images.unsplash.com/photo-1557160836-f3a6d1afaab2?q=60&w=800&auto=format&fit=crop&fm=webp&ixlib=rb-4.1.0',
+        'https://images.unsplash.com/photo-1643901947958-fdd7dd3ff77a?q=60&w=800&auto=format&fit=crop&fm=webp&ixlib=rb-4.1.0',
+        'https://images.unsplash.com/photo-1622260615656-96d7c7ad6c4c?q=60&w=800&auto=format&fit=crop&fm=webp&ixlib=rb-4.1.0'
       ],
     },
     variants: {

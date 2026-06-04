@@ -32,6 +32,7 @@ export function PrimaryImage({ src, alt }: PrimaryImageProps): ReactElement {
         className={styles.image}
         width={600}
         height={600}
+        fetchPriority="high"
       />
     </div>
   );

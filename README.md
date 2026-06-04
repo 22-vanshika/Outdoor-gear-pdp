@@ -1,73 +1,50 @@
-# React + TypeScript + Vite
+# Trailhead — Alpine Ascent Pack
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the Trailhead project! This is a clean, modern, and fast Product Detail Page (PDP) for a premium outdoor gear store. 
 
-Currently, two official plugins are available:
+## How to Run the Project
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+You will need Node.js (version 20 or higher) installed on your computer.
 
-## React Compiler
+1. Open your terminal or command prompt.
+2. Install the necessary files by running:
+   `npm install`
+3. Start the project by running:
+   `npm run dev`
+4. Open your web browser and go to `http://localhost:5173` to see the store!
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## What We Built
 
-## Expanding the ESLint configuration
+### 📸 Image Gallery
+- A large main image that you can zoom into by hovering your mouse (on desktop computers).
+- Smaller images below it. Clicking them changes the main image.
+- On mobile phones, you can easily swipe left and right to see all images, with helpful dots and arrows showing your position.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🛒 Product Info & Shopping
+- Clear product name, brand, and pricing (including sale discounts).
+- Clickable color choices. The available sizes change automatically based on the color you pick.
+- Smart size buttons that tell you when stock is low or sold out.
+- A quantity picker that won't let you add more items than we actually have in stock.
+- An "Add to Cart" button that updates based on availability.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 🛍️ The Shopping Cart
+- A sleek cart menu that slides in from the side (or bottom on mobile).
+- You can change item quantities or remove items directly from the cart.
+- It calculates your total and checks if you qualify for free shipping.
+- **Smart Memory:** If you refresh the page, your cart items are saved and won't disappear!
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### 🔗 Smart Web Links
+- When you select a color and size, the web link (URL) updates automatically. You can copy this link and send it to a friend, and they will see the exact same color and size!
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 📱 Works on All Devices
+- The page looks beautiful on wide desktop screens and adapts perfectly for mobile phones with easy-to-tap buttons.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Design Decisions and Trade-offs
+To read about why we built things the way we did, please read the [DECISIONS.md](./DECISIONS.md) file. It explains our choices in very simple terms.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## What's Next (Trade-offs)
+- The "Checkout" button in the cart doesn't take your money yet (it's just a test project).
+- The Newsletter form at the bottom clears when you hit submit, but doesn't send a real email.
+- The product colors and sizes are stored locally in the app, rather than coming from a live server.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Enjoy exploring the Trailhead store!
