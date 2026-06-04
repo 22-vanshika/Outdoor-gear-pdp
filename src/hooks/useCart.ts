@@ -51,6 +51,7 @@ export function useCart(): UseCartReturn {
       } catch {
         setCartState('error');
       } finally {
+        // Reset to idle after 2s — UI concern, intentionally in the hook not the service
         setTimeout(() => setCartState('idle'), 2000);
       }
     },

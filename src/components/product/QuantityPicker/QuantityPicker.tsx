@@ -16,7 +16,7 @@ export function QuantityPicker({ value, min, max, onChange, showMaxLabel = true 
           disabled={value <= min}
           aria-label="Decrease quantity"
         >
-          <span className={`material-symbols-outlined ${styles['btn__icon']}`}>
+          <span className={`material-symbols-outlined ${styles['btn__icon']}`} aria-hidden="true">
             remove
           </span>
         </button>
@@ -36,7 +36,7 @@ export function QuantityPicker({ value, min, max, onChange, showMaxLabel = true 
           disabled={value >= max}
           aria-label="Increase quantity"
         >
-          <span className={`material-symbols-outlined ${styles['btn__icon']}`}>
+          <span className={`material-symbols-outlined ${styles['btn__icon']}`} aria-hidden="true">
             add
           </span>
         </button>
