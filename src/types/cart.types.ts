@@ -8,7 +8,3 @@ export interface CartItem {
   quantity: number;
   maxQuantity: number;
 }
-
-export interface CartState {
-  items: CartItem[];
-}

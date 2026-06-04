@@ -19,11 +19,10 @@ export interface VariantConfig {
   colours: ColourVariant[];
 }
 
-// Keep Colour and Size as aliases for backwards compat in components
-export type Colour = Pick<ColourVariant, 'id' | 'label' | 'hex'>;
+
 export type Size = SizeStock;
 
-export interface NormalisedProduct {
+interface NormalisedProduct {
   id: number;
   title: string;
   price: number;

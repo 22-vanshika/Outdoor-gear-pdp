@@ -1,16 +1,16 @@
 import type { ColourVariant, SizeStock } from '@/types';
 
-export const URL_PARAMS = {
+const URL_PARAMS = {
   COLOUR: 'colour',
   SIZE: 'size',
 } as const;
 
-export interface VariantParams {
+interface VariantParams {
   colourId: string | null;
   sizeId: string | null;
 }
 
-export function getVariantFromURL(): VariantParams {
+function getVariantFromURL(): VariantParams {
   const params = new URLSearchParams(window.location.search);
   return {
     colourId: params.get(URL_PARAMS.COLOUR),

@@ -1,7 +1,7 @@
 import type { VariantConfig } from '@/types';
 import { deriveStockStatus } from '@/utils';
 
-export interface ProductOverride {
+interface ProductOverride {
   title: string;
   brand: string;
   description: string;

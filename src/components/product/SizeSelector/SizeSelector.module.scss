@@ -45,7 +45,7 @@
   justify-content: center;
   height: 60px; /* Equal height for all options whether status subtext is present or not */
   padding: $spacing-sm;
-  border: 1px solid transparent;
+  border: 1px solid $color-outline-variant;
   border-radius: $radius-lg;
   background-color: $color-surface-container-lowest;
   color: $color-on-surface;
@@ -84,7 +84,7 @@
   }
 
   &:hover:not(&--active):not(&--sold-out):not(&--low-stock) {
-    border-color: $color-outline-variant;  // subtle border only on hover
+    border-color: $color-outline;  // slightly darker border on hover
   }
 }
 

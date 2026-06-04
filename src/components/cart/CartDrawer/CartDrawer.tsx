@@ -56,7 +56,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps): ReactElement {
             onClick={onClose}
             aria-label="Close cart"
           >
-            <span className="material-symbols-outlined">close</span>
+            <span className="material-symbols-outlined" aria-hidden="true">close</span>
           </button>
         </div>
 
@@ -103,7 +103,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps): ReactElement {
                         disabled={item.quantity <= MIN_QUANTITY}
                         aria-label="Decrease quantity"
                       >
-                        <span className="material-symbols-outlined">remove</span>
+                        <span className="material-symbols-outlined" aria-hidden="true">remove</span>
                       </button>
                       <span className={styles['qty-value']}>{item.quantity}</span>
                       <button
@@ -114,7 +114,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps): ReactElement {
                         disabled={item.quantity >= item.maxQuantity}
                         aria-label="Increase quantity"
                       >
-                        <span className="material-symbols-outlined">add</span>
+                        <span className="material-symbols-outlined" aria-hidden="true">add</span>
                       </button>
                       <button
                         className={styles['remove-btn']}
@@ -123,7 +123,7 @@ export function CartDrawer({ isOpen, onClose }: CartDrawerProps): ReactElement {
                         }
                         aria-label={`Remove ${item.title} from cart`}
                       >
-                        <span className="material-symbols-outlined">delete</span>
+                        <span className="material-symbols-outlined" aria-hidden="true">delete</span>
                       </button>
                     </div>
                   </div>

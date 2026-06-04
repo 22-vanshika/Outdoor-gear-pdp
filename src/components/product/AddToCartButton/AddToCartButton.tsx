@@ -35,7 +35,7 @@ export function AddToCartButton({ state, isSoldOut, isMaxedOut, onClick }: AddTo
       >
         <span>{label}</span>
         {!isSoldOut && state !== 'loading' && state !== 'error' && (
-          <span className={`material-symbols-outlined ${styles['btn__icon']}`}>
+          <span className={`material-symbols-outlined ${styles['btn__icon']}`} aria-hidden="true">
             shopping_cart
           </span>
         )}

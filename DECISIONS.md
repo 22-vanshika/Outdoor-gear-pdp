@@ -152,35 +152,6 @@ give the design system first-class representation in the codebase.
 
 ---
 
-## What I Would Do Differently With More Time
-
-**1. Real variant API**
-The local `variantConfig.ts` enrichment layer works but is static. With more time
-I would set up a simple Express mock server that returns variant data dynamically,
-making the architecture honest end-to-end rather than partially hardcoded.
-
-**2. URL sync before cart persistence**
-I built cart state co-location in `ProductInfo` before implementing URL-based
-variant sync. This means the selected variant is lost on refresh. The correct
-build order would have been URL sync first, then cart persistence, so both features
-were testable together. This is a sequencing mistake.
-
-**3. Quantity state in URL**
-Currently quantity resets on refresh. A better implementation would persist
-quantity in the URL alongside colour and size: `?colour=slate-blue&size=20l&qty=2`.
-This would make the page fully deep-linkable including quantity.
-
-**4. Image optimisation**
-The Unsplash images are loaded at full resolution. With more time I would use
-Unsplash's width parameter more aggressively (`?w=400` for thumbnails, `?w=800`
-for the primary image) and add `loading="lazy"` to below-fold images. The primary
-image should use `fetchpriority="high"` to improve LCP.
-
-**5. Error boundary**
-The current error state in `useProduct` renders an inline error message. A proper
-implementation would use a React error boundary component so API failures don't
-break the entire page render.
-
 ## Decision #6 — Cart State Architecture
 
 **Chose: React Context API with localStorage lazy initialiser**
@@ -256,3 +227,100 @@ already in cart) rather than total stock. This prevents the user from
 selecting a quantity that would exceed the stock limit given what's
 already in their cart. The quantity resets to 1 when the size selection
 changes — a new size is a fresh selection with its own remaining stock.
+
+---
+
+## Decision #9 — Cart Drawer vs Separate Cart Page
+
+**Chose: Slide-in drawer**
+
+A separate cart page requires routing, a new URL, and navigates the user
+away from the PDP — they lose their place and have to navigate back to
+continue shopping. A slide-in drawer keeps the user on the PDP, lets them
+review their cart and return to shopping in one dismiss gesture, and is
+the established ecommerce convention for single-product pages.
+
+The drawer state (isCartOpen, openCart, closeCart) lives in CartContext
+rather than a new UIContext. The cart is the only global UI concern in
+this application — adding a second context for one boolean would be
+over-engineering. If the application grew to have multiple drawers or
+modals, that decision would be revisited.
+
+Mobile behaviour differs from desktop: the drawer slides up from the
+bottom as a full-width sheet rather than from the right. This matches
+mobile ecommerce convention — a right-slide on mobile wastes horizontal
+space and creates awkward touch targets.
+
+---
+
+## Decision #10 — Per-Colour Variant Stock Model
+
+**Chose: ColourVariant with nested sizes**
+
+The initial implementation shared one stock level across all colours for
+each size. This is unrealistic — in practice, a product in Slate Blue /
+20L may have 8 units while the same product in Obsidian Black / 20L may
+be sold out.
+
+The type was restructured from a flat `VariantConfig` with separate
+`colours[]` and `sizes[]` arrays to `ColourVariant[]` where each colour
+owns its size array with independent stock levels. This is a more honest
+model and produces meaningfully different UI behaviour: switching colour
+updates the size selector to reflect that colour's specific availability,
+and resets the active size to the first available option for the new colour.
+
+The trade-off is that stock data is now duplicated across colours for
+sizes that happen to share the same availability. In a real application
+this would come from an API that returns per-SKU stock. Here it is
+configured in `variantConfig.ts` and the duplication is acceptable for
+a static configuration layer.
+
+---
+
+## Decision #11 — maxQuantity Stored on CartItem
+
+**Chose: Store maxQuantity at add-time on the CartItem**
+
+The cart drawer needs to enforce stock limits on the quantity increment
+button. Two options:
+
+- Pass variant data into the cart layer so the drawer can look up stock
+- Store the max quantity on the CartItem when it is first added
+
+The second approach keeps the cart layer self-contained. CartContext
+does not need to know about products or variants — it only needs to know
+the maximum quantity for each item it already holds. `maxQuantity` is
+set once at add-time as `Math.min(stock, MAX_QUANTITY_PER_ORDER)` and
+travels with the item through localStorage. If stock changes between
+sessions, the cap may be stale — acceptable for this scope.
+
+---
+
+## What I Would Do Differently With More Time
+
+**1. Real variant API**
+The local `variantConfig.ts` enrichment layer works but is static. With more time
+I would set up a simple Express mock server that returns variant data dynamically,
+making the architecture honest end-to-end rather than partially hardcoded.
+
+**2. URL sync before cart persistence**
+I built cart state co-location in `ProductInfo` before implementing URL-based
+variant sync. This means the selected variant is lost on refresh. The correct
+build order would have been URL sync first, then cart persistence, so both features
+were testable together. This is a sequencing mistake.
+
+**3. Quantity state in URL**
+Currently quantity resets on refresh. A better implementation would persist
+quantity in the URL alongside colour and size: `?colour=slate-blue&size=20l&qty=2`.
+This would make the page fully deep-linkable including quantity.
+
+**4. Image optimisation**
+The Unsplash images are loaded at full resolution. With more time I would use
+Unsplash's width parameter more aggressively (`?w=400` for thumbnails, `?w=800`
+for the primary image) and add `loading="lazy"` to below-fold images. The primary
+image should use `fetchpriority="high"` to improve LCP.
+
+**5. Error boundary**
+The current error state in `useProduct` renders an inline error message. A proper
+implementation would use a React error boundary component so API failures don't
+break the entire page render.
