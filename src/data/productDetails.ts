@@ -56,7 +56,7 @@ export const PRODUCT_DETAILS: ProductDetailsData = {
         text: 'Contoured foam padding and adjustable load lifters ensure comfort on 12-hour summit bids.',
       },
     ],
-    image: 'https://images.unsplash.com/photo-1522163182402-834f871fd851?w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1522163182402-834f871fd851?w=800&q=60&fm=webp',
     imageAlt: 'Hiker wearing the Alpine Ascent Pack in a misty forest',
   },
   specs: [

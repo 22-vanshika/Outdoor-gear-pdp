@@ -63,7 +63,7 @@ export function ThumbnailStrip({ images, activeIndex, onSelect }: ThumbnailStrip
             aria-pressed={activeIndex === index}
           >
             <img
-              src={src}
+              src={src.replace('w=800', 'w=200')}
               alt={`Product thumbnail ${index + 1}`}
               className={styles.thumbnail__image}
               width={80}
