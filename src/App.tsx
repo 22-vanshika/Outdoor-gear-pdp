@@ -1,4 +1,4 @@
-import { useState, type ReactElement } from 'react';
+import { useState, lazy, Suspense, type ReactElement } from 'react';
 import { ImageGallery } from '@/components/gallery';
 import { ProductInfo } from '@/components/product';
 import { Navbar } from '@/components/layout';
@@ -6,6 +6,11 @@ import { CartDrawer } from '@/components/cart';
 import { useCartContext } from '@/stores';
 import { useProduct } from '@/hooks';
 import styles from './App.module.scss';
+
+// Lazy load the below-fold section
+const ProductTabs = lazy(() =>
+  import('@/components/details').then((m) => ({ default: m.ProductTabs }))
+);
 
 function App(): ReactElement {
   const { isCartOpen, closeCart } = useCartContext();
@@ -27,7 +32,6 @@ function App(): ReactElement {
       </div>
     );
   }
-
 
   const handleImageSelect = (index: number) => {
     setActiveImageIndex(index);
@@ -51,6 +55,13 @@ function App(): ReactElement {
               product={product}
             />
           </div>
+        </div>
+        
+        {/* Below-fold — lazy loaded */}
+        <div className={styles['details-section']}>
+          <Suspense fallback={<div className={styles['tabs-loading']}>Loading details...</div>}>
+            <ProductTabs reviewCount={product.rating.count} />
+          </Suspense>
         </div>
       </div>
       <CartDrawer isOpen={isCartOpen} onClose={closeCart} />

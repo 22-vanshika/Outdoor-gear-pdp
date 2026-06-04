@@ -1,0 +1,61 @@
+@use '@/styles/tokens' as *;
+@use '@/styles/breakpoints' as *;
+
+.tabs {
+  width: 100%;
+}
+
+.tab-bar {
+  display: flex;
+  border-bottom: 1px solid $color-outline-variant;
+  
+  @include mobile {
+    margin-left: -$spacing-margin-mobile;
+    margin-right: -$spacing-margin-mobile;
+    padding-left: $spacing-xs;
+    padding-right: $spacing-xs;
+    justify-content: space-between;
+  }
+}
+
+.tab-btn {
+  flex-shrink: 0;
+  padding: $spacing-md $spacing-lg;
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  letter-spacing: $letter-spacing-widest;
+  text-transform: uppercase;
+  color: $color-on-surface-variant;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition:
+    color $transition-default,
+    border-color $transition-default;
+  white-space: nowrap;
+
+  @include mobile {
+    padding: $spacing-md $spacing-2xs;
+    font-size: $font-size-2xs;
+    flex: 1;
+    text-align: center;
+    white-space: normal;
+  }
+
+  &:hover {
+    color: $color-on-surface;
+  }
+
+  &--active {
+    color: $color-primary;
+    border-bottom-color: $color-primary;
+  }
+}
+
+.panel {
+  padding: $spacing-lg 0;
+
+  @include mobile {
+    padding: $spacing-md 0;
+  }
+}

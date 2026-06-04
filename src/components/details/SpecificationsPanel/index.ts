@@ -1,0 +1,1 @@
+export { SpecificationsPanel } from './SpecificationsPanel';

@@ -158,6 +158,7 @@ export function CartProvider({ children }: CartProviderProps): ReactElement {
 
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useCartContext(): CartContextValue {
   const ctx = useContext(CartContext);
   if (!ctx) {

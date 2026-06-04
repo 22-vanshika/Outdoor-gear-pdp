@@ -296,6 +296,58 @@ sessions, the cap may be stale — acceptable for this scope.
 
 ---
 
+## Decision #12 — Below-Fold Lazy Loading Strategy
+
+**Chose: React.lazy + Suspense from the start**
+
+The below-fold details section (tabs, specs, reviews) is not visible on
+page load. Loading it eagerly adds ~15–20KB to the initial bundle for
+content the user may never scroll to. React.lazy splits it into a
+separate chunk that loads only when the Suspense boundary first renders.
+
+The implementation is a single wrapper in App.tsx:
+
+```ts
+const ProductTabs = lazy(() =>
+  import("@/components/details").then((m) => ({ default: m.ProductTabs })),
+);
+```
+
+The Suspense fallback is a minimal loading label — not a skeleton, not
+a spinner. The content is below the fold so the fallback is rarely
+visible in practice.
+
+The trade-off: if the user scrolls immediately and the network is slow,
+they see the fallback briefly. This is acceptable — the above-fold
+content (gallery, product info) is always available immediately.
+
+---
+
+## Decision #13 — Below-Fold Static Data Layer
+
+**Chose: productDetails.ts alongside variantConfig.ts**
+
+The Fake Store API returns no description content, no specifications,
+and no reviews. The same enrichment pattern used for variants was
+applied here — static local data in `src/data/productDetails.ts` that
+is honest about its origin.
+
+The alternative was to embed the content directly in the components as
+hardcoded strings. Keeping it in a data file means:
+
+- The content has a single source of truth
+- All three panels (Description, Specifications, Reviews) draw from
+  the same import
+- The data shape is typed — `ProductDetailsData` with explicit
+  interfaces for each panel
+
+In a real application this data would come from a CMS or a product
+content API. The architecture is designed to make that swap easy —
+replace the static import with an API call in a service function and
+the components don't change.
+
+---
+
 ## What I Would Do Differently With More Time
 
 **1. Real variant API**
