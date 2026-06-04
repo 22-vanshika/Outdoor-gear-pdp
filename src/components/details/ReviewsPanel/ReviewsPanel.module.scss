@@ -105,12 +105,18 @@
   gap: $spacing-lg;
   border-top: 1px solid $color-outline-variant;
   padding-top: $spacing-lg;
+
+  @include desktop {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-xl;
+  }
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  gap: $spacing-sm;
+  gap: $spacing-md;
   padding-bottom: $spacing-lg;
   border-bottom: 1px solid rgba($color-outline-variant, 0.4);
 
@@ -118,18 +124,32 @@
     border-bottom: none;
     padding-bottom: 0;
   }
+
+  @include desktop {
+    border: 1px solid rgba($color-outline-variant, 0.5);
+    border-radius: $radius-xl;
+    padding: $spacing-lg;
+    background-color: $color-surface-container-lowest;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+
+    &:last-child {
+      padding-bottom: $spacing-lg;
+    }
+  }
 }
 
 .card__header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: $spacing-md;
 }
 
 .card__title {
   font-size: $font-size-lg;
   font-weight: $font-weight-bold;
   color: $color-on-surface;
+  margin-top: $spacing-xs;
 }
 
 .card__date {
@@ -137,12 +157,16 @@
   font-size: $font-size-xs;
   color: $color-on-surface-variant;
   opacity: 0.5;
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-top: $spacing-xs;
 }
 
 .card__body {
   font-size: $font-size-base;
   color: $color-on-surface-variant;
   line-height: $line-height-relaxed;
+  flex-grow: 1;
 }
 
 .card__footer {
