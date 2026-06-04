@@ -348,6 +348,72 @@ the components don't change.
 
 ---
 
+## Decision #14 — Precision Engineering Section: Bento vs Uniform Grid
+
+**Chose: Bento grid on desktop, stacked feature cards on mobile**
+
+The Precision Engineering section needed to showcase four product
+capabilities. Two layout options were considered:
+
+- **Uniform grid** — all four cells identical in size, same content
+  (feature cards with icon + label + description) on both viewports.
+  Simple, consistent, easy to maintain.
+- **Bento grid** — desktop uses a mixed layout with two image cards
+  (large and small) and three feature cards in a 3-column grid.
+  Mobile shows four stacked feature cards with no images.
+
+I chose the bento approach because the desktop viewport has enough
+space to make the image cards visually impactful — they add product
+photography context that feature cards alone cannot. On mobile,
+image cards in a stacked layout become awkward and take up too much
+vertical space, so the mobile version uses feature cards exclusively.
+
+The two viewports render different DOM — `.bento` is hidden on mobile
+via CSS, `.mobile-stack` is hidden on desktop. This is a deliberate
+trade-off: slight HTML duplication in exchange for the cleanest
+possible layout on each viewport without complex responsive hacks.
+
+Content data is hardcoded directly in the component rather than in a
+separate data file — the audit confirmed `precisionEngineering.ts` was
+dead code once the bento layout was finalised, so it was removed.
+
+---
+
+---
+
+## Decision #15 — Footer: Single Component vs Separate Column Components
+
+**Chose: Single Footer component with internal data arrays**
+
+The footer has three distinct regions on desktop (brand, link columns,
+newsletter) and a different layout on mobile (brand, 2-column link grid,
+newsletter). Two approaches were considered:
+
+- **Separate components** — `FooterBrand`, `FooterLinks`, `FooterNewsletter`
+  composed inside a `Footer` wrapper. Clean separation, but three extra
+  component folders for what is essentially one UI region with no reuse.
+- **Single component with internal arrays** — `SHOP_LINKS` and
+  `SUPPORT_LINKS` as constants inside the component file, rendered
+  conditionally per viewport via CSS show/hide.
+
+I chose the single component approach. The footer has no external
+consumers — nothing else renders `FooterLinks` or `FooterNewsletter`
+independently. Splitting it would create components whose only purpose
+is to be used once inside `Footer`, which violates the spirit of the
+single responsibility principle rather than serving it.
+
+The mobile layout merges all links into one flat 2-column grid
+(`ALL_LINKS = [...SHOP_LINKS, ...SUPPORT_LINKS]`). The desktop layout
+shows them in separate columns with headings. This is handled entirely
+in CSS via `.desktop-col { display: none on mobile }` — no conditional
+rendering in JSX, no duplicate data.
+
+The newsletter form uses a controlled input with local `useState` —
+appropriate since the form state is purely local to the footer and has
+no global consumers.
+
+---
+
 ## What I Would Do Differently With More Time
 
 **1. Real variant API**
@@ -367,12 +433,34 @@ quantity in the URL alongside colour and size: `?colour=slate-blue&size=20l&qty=
 This would make the page fully deep-linkable including quantity.
 
 **4. Image optimisation**
-The Unsplash images are loaded at full resolution. With more time I would use
-Unsplash's width parameter more aggressively (`?w=400` for thumbnails, `?w=800`
-for the primary image) and add `loading="lazy"` to below-fold images. The primary
-image should use `fetchpriority="high"` to improve LCP.
+Lighthouse mobile scores 89 — the main drag is LCP at 3.7s on slow 4G throttling,
+caused entirely by Unsplash images loading at full resolution over a simulated slow
+connection. With more time I would use Unsplash's width parameter more aggressively
+(`?w=400` for thumbnails, `?w=600` for the primary image on mobile via srcset), add
+`fetchpriority="high"` to the primary image, and convert to WebP. Desktop scores 99
+because the same images load fast on an unthrottled connection. The fix is purely
+at the image delivery layer — no architectural changes needed.
 
 **5. Error boundary**
 The current error state in `useProduct` renders an inline error message. A proper
 implementation would use a React error boundary component so API failures don't
 break the entire page render.
+
+**6. Focus trap in cart drawer**
+The cart drawer moves focus to the drawer on open but does not trap it — a keyboard
+user can tab outside the drawer while it is open. A complete implementation would
+use a focus trap (either a small library or manual tabindex management) to keep
+focus within the dialog until it is dismissed. Not implemented due to time
+constraints.
+
+**7. Navbar routing**
+The navbar links (Shop All, Apparel, Equipment, Journal) are static anchors with no
+routing. A complete implementation would use React Router with actual routes. The
+router directory was scaffolded but left empty — adding routes was deferred because
+the assignment scope is a single PDP, not a multi-page application.
+
+**8. Newsletter form**
+The newsletter input clears on submit but has no success state, no error
+handling, and no actual API call. A complete implementation would wire it to
+an email service (Mailchimp, ConvertKit, or a simple backend endpoint), show
+a success message on submission, and handle network errors inline.
