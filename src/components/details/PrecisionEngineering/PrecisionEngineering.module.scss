@@ -161,7 +161,7 @@
 }
 
 .feature-card__icon {
-  font-size: 36px;
+  font-size: $font-size-2xl;
 
   .feature-card--default & { color: $color-primary; }
   .feature-card--dark &    { color: $color-primary-fixed-dim; }
@@ -237,7 +237,7 @@
 }
 
 .mobile-card__icon {
-  font-size: 36px;
+  font-size: $font-size-2xl;
 
   .mobile-card--default & { color: $color-primary; }
   .mobile-card--dark &    { color: $color-secondary-fixed; }

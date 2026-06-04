@@ -50,7 +50,7 @@
 }
 
 .star-icon {
-  font-size: 20px;
+  font-size: $font-size-xl;
 }
 
 // ─── Performance bars ─────────────────────────────────────────────────────────
@@ -221,7 +221,7 @@
 }
 
 .card__verified-icon {
-  font-size: 12px;
+  font-size: $font-size-xs;
   color: $color-primary;
 }
 
@@ -236,5 +236,5 @@
 }
 
 .card__helpful-icon {
-  font-size: 16px;
+  font-size: $font-size-base;
 }

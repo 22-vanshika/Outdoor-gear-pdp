@@ -1,5 +1,3 @@
-import type { ProductDetailsData } from '@/data';
+import type { ProductDetailsData } from '../../../data/productDetails';
 
-export interface DescriptionPanelProps {
-  data: ProductDetailsData['description'];
-}
+export interface DescriptionPanelProps { data: ProductDetailsData['description'] }
