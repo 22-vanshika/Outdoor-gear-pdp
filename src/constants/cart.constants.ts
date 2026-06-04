@@ -1,2 +1,5 @@
 export const FREE_SHIPPING_THRESHOLD = 250;
 export const FLAT_SHIPPING_RATE = 9.95;
+export const CART_SERVICE_MIN_DELAY = 800;
+export const CART_SERVICE_DELAY_RANGE = 700;
+export const CART_SERVICE_FAILURE_RATE = 0.2;

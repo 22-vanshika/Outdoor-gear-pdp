@@ -1,5 +1,3 @@
-import type { SpecItem } from '@/data';
+import type { SpecItem } from '../../../data/productDetails';
 
-export interface SpecificationsPanelProps {
-  specs: SpecItem[];
-}
+export interface SpecificationsPanelProps { specs: SpecItem[] }
