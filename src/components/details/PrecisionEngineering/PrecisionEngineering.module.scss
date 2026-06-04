@@ -1,0 +1,268 @@
+@use '@/styles/tokens' as *;
+@use '@/styles/breakpoints' as *;
+
+.section {
+  padding: $spacing-xl 0;
+  border-top: 1px solid $color-outline-variant;
+}
+
+// ─── Header ───────────────────────────────────────────────────────────────────
+
+.header {
+  text-align: center;
+  margin-bottom: $spacing-xl;
+}
+
+.headline {
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-bold;
+  color: $color-on-surface;
+  line-height: $line-height-tight;
+  letter-spacing: $letter-spacing-tight;
+  margin-bottom: $spacing-sm;
+
+  @include mobile {
+    font-size: $font-size-2xl;
+  }
+}
+
+.subtitle {
+  font-size: $font-size-lg;
+  color: $color-on-surface-variant;
+  line-height: $line-height-relaxed;
+  max-width: 480px;
+  margin: 0 auto;
+
+  @include mobile {
+    font-size: $font-size-base;
+  }
+}
+
+// ─── Desktop bento grid ───────────────────────────────────────────────────────
+
+.bento {
+  display: none;
+
+  @include desktop {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 280px 280px;
+    gap: $spacing-md;
+  }
+}
+
+// Large card spans 1 col, 2 rows
+.bento__card--large {
+  grid-column: 1;
+  grid-row: 1 / 3;
+}
+
+// Top-right image card
+.bento__card--image-sm {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+// Feature cards
+.bento__card--feature-1 {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.bento__card--feature-2 {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.bento__card--feature-3 {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+// ─── Image card ───────────────────────────────────────────────────────────────
+
+.img-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: $radius-xl;
+  border: 1px solid $color-outline-variant;
+  height: 100%;
+  cursor: default;
+
+  &:hover .img-card__image {
+    transform: scale(1.04);
+  }
+}
+
+.img-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform $transition-slow;
+}
+
+.img-card__overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: $spacing-md;
+  background: linear-gradient(
+    to top,
+    rgba($color-inverse-surface, 0.85) 0%,
+    transparent 100%
+  );
+}
+
+.img-card__label {
+  font-family: $font-primary;
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  color: $color-inverse-on-surface;
+  margin-bottom: $spacing-xs;
+}
+
+.img-card__description {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  color: $color-inverse-on-surface;
+  opacity: 0.8;
+  line-height: $line-height-normal;
+}
+
+// ─── Feature card ─────────────────────────────────────────────────────────────
+
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: $spacing-lg $spacing-md;
+  border-radius: $radius-xl;
+  gap: $spacing-sm;
+  height: 100%;
+
+  &--default {
+    background-color: $color-surface-container;
+    border: 1px solid $color-outline-variant;
+  }
+
+  &--dark {
+    background-color: $color-inverse-surface;
+    color: $color-inverse-on-surface;
+  }
+
+  &--accent {
+    background-color: $color-primary;
+    color: $color-on-primary;
+  }
+}
+
+.feature-card__icon {
+  font-size: 36px;
+
+  .feature-card--default & { color: $color-primary; }
+  .feature-card--dark &    { color: $color-primary-fixed-dim; }
+  .feature-card--accent &  { color: $color-on-primary; }
+}
+
+.feature-card__label {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  letter-spacing: $letter-spacing-wide;
+  text-transform: uppercase;
+
+  .feature-card--default & { color: $color-on-surface; }
+  .feature-card--dark &    { color: $color-inverse-on-surface; }
+  .feature-card--accent &  { color: $color-on-primary; }
+}
+
+.feature-card__description {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  letter-spacing: $letter-spacing-wide;
+  text-transform: uppercase;
+  line-height: $line-height-normal;
+
+  .feature-card--default & { color: $color-on-surface-variant; }
+  .feature-card--dark &    { color: $color-inverse-on-surface; opacity: 0.7; }
+  .feature-card--accent &  { color: $color-on-primary; opacity: 0.85; }
+}
+
+// ─── Mobile stacked cards ─────────────────────────────────────────────────────
+
+.mobile-stack {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-md;
+
+  @include desktop {
+    display: none;
+  }
+}
+
+.mobile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: $spacing-lg $spacing-md;
+  border-radius: $radius-xl;
+  gap: $spacing-sm;
+  min-height: 160px;
+
+  &:nth-child(1),
+  &:nth-child(4) {
+    grid-column: 1 / -1;
+  }
+
+  &--default {
+    background-color: $color-surface-container;
+    border: 1px solid $color-outline-variant;
+    padding: $spacing-md $spacing-xs;
+  }
+
+  &--dark {
+    background-color: $color-secondary;
+    color: $color-on-secondary;
+  }
+
+  &--accent {
+    background-color: $color-primary;
+    color: $color-on-primary;
+  }
+}
+
+.mobile-card__icon {
+  font-size: 36px;
+
+  .mobile-card--default & { color: $color-primary; }
+  .mobile-card--dark &    { color: $color-secondary-fixed; }
+  .mobile-card--accent &  { color: $color-on-primary; }
+}
+
+.mobile-card__label {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  letter-spacing: $letter-spacing-wide;
+  text-transform: uppercase;
+
+  .mobile-card--default & { color: $color-on-surface; }
+  .mobile-card--dark &    { color: $color-on-secondary; }
+  .mobile-card--accent &  { color: $color-on-primary; }
+}
+
+.mobile-card__description {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  letter-spacing: $letter-spacing-wide;
+  text-transform: uppercase;
+  line-height: $line-height-normal;
+
+  .mobile-card--default & { color: $color-on-surface-variant; }
+  .mobile-card--dark &    { color: $color-on-secondary; opacity: 0.8; }
+  .mobile-card--accent &  { color: $color-on-primary; opacity: 0.85; }
+}
