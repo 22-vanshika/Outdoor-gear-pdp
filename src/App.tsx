@@ -1,7 +1,7 @@
 import { useState, lazy, Suspense, type ReactElement } from 'react';
 import { ImageGallery } from '@/components/gallery';
 import { ProductInfo } from '@/components/product';
-import { Navbar } from '@/components/layout';
+import { Navbar, Footer } from '@/components/layout';
 import { CartDrawer } from '@/components/cart';
 import { useCartContext } from '@/stores';
 import { useProduct } from '@/hooks';
@@ -74,6 +74,7 @@ function App(): ReactElement {
           </Suspense>
         </div>
       </div>
+      <Footer />
       <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
     </>
   );

@@ -1,0 +1,184 @@
+@use '@/styles/tokens' as *;
+@use '@/styles/breakpoints' as *;
+
+.footer {
+  background-color: $color-surface-container-lowest;
+  border-top: 1px solid $color-outline-variant;
+}
+
+.inner {
+  max-width: $max-width;
+  margin: 0 auto;
+  padding: $spacing-xl $spacing-margin-desktop;
+
+  @include mobile {
+    padding: $spacing-lg $spacing-margin-mobile $sticky-bar-safe-padding;
+  }
+}
+
+// ─── Desktop grid ─────────────────────────────────────────────────────────────
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-lg;
+
+  @include desktop {
+    grid-template-columns: 2fr 1fr 1fr 2fr;
+    gap: $spacing-xl;
+    align-items: start;
+  }
+}
+
+// ─── Brand column ─────────────────────────────────────────────────────────────
+
+.brand__name {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-on-surface;
+  letter-spacing: $letter-spacing-snug;
+  text-transform: uppercase;
+  margin-bottom: 0;
+
+  @include desktop {
+    margin-bottom: $spacing-md;
+  }
+}
+
+.brand__tagline {
+  font-size: $font-size-base;
+  color: $color-on-surface-variant;
+  line-height: $line-height-relaxed;
+  max-width: 240px;
+
+  @include mobile {
+    display: none;
+  }
+}
+
+// ─── Link columns ─────────────────────────────────────────────────────────────
+
+.col__heading {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  letter-spacing: $letter-spacing-widest;
+  text-transform: uppercase;
+  color: $color-on-surface;
+  margin-bottom: $spacing-md;
+
+  @include mobile {
+    display: none;
+  }
+}
+
+.col__links {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.col__link {
+  font-size: $font-size-base;
+  color: $color-on-surface-variant;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-primary;
+  }
+}
+
+// ─── Desktop-only columns ─────────────────────────────────────────────────────
+
+.desktop-col {
+  @include mobile {
+    display: none;
+  }
+}
+
+// ─── Mobile links grid ────────────────────────────────────────────────────────
+
+.mobile-links {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-sm $spacing-lg;
+  margin-top: $spacing-lg;
+
+  @include desktop {
+    display: none;
+  }
+}
+
+// ─── Newsletter ───────────────────────────────────────────────────────────────
+
+.newsletter__heading {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  letter-spacing: $letter-spacing-widest;
+  text-transform: uppercase;
+  color: $color-on-surface;
+  margin-bottom: $spacing-md;
+}
+
+.newsletter__form {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid $color-on-surface;
+}
+
+.newsletter__input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  color: $color-on-surface;
+  padding: $spacing-sm 0;
+  letter-spacing: $letter-spacing-wide;
+
+  &::placeholder {
+    color: $color-on-surface-variant;
+    opacity: 0.5;
+  }
+}
+
+.newsletter__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-on-surface;
+  padding: $spacing-sm;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-primary;
+  }
+}
+
+.newsletter__icon {
+  font-size: 20px;
+}
+
+// ─── Copyright ────────────────────────────────────────────────────────────────
+
+.copyright {
+  border-top: 1px solid $color-outline-variant;
+  margin-top: $spacing-lg;
+  padding-top: $spacing-md;
+  text-align: center;
+
+  @include desktop {
+    text-align: center;
+  }
+}
+
+.copyright__text {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  color: $color-on-surface-variant;
+  letter-spacing: $letter-spacing-wide;
+  text-transform: uppercase;
+  opacity: 0.6;
+}

@@ -185,7 +185,10 @@
   right: 0;
   background-color: $color-surface;
   border-top: 1px solid rgba($color-outline-variant, 0.5);
-  padding: $spacing-sm $spacing-margin-mobile;
+  padding-top: $spacing-sm;
+  padding-left: $spacing-margin-mobile;
+  padding-right: $spacing-margin-mobile;
+  padding-bottom: calc(#{$spacing-sm} + env(safe-area-inset-bottom, 12px));
   display: flex;
   align-items: center;
   gap: $spacing-sm;
