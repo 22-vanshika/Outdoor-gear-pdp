@@ -1,0 +1,86 @@
+@use '@/styles/tokens' as *;
+@use '@/styles/breakpoints' as *;
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  border: 1px solid $color-outline-variant;
+  border-radius: $radius-lg;
+  overflow: hidden;
+
+  @include desktop {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.cell {
+  padding: $spacing-md;
+  background-color: $color-surface-container-lowest;
+  border-bottom: 1px solid $color-outline-variant;
+  transition: background-color $transition-default;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  @include desktop {
+    border-bottom: 1px solid $color-outline-variant;
+    border-right: 1px solid $color-outline-variant;
+
+    &:hover {
+      background-color: $color-surface-bright;
+    }
+  }
+}
+
+.cell__category {
+  font-family: $font-mono;
+  font-size: $font-size-2xs;
+  font-weight: $font-weight-bold;
+  letter-spacing: $letter-spacing-widest;
+  text-transform: uppercase;
+  color: $color-primary;
+  margin-bottom: $spacing-xs;
+}
+
+.cell__name {
+  font-size: $font-size-base;
+  font-weight: $font-weight-bold;
+  color: $color-on-surface;
+  margin-bottom: $spacing-2xs;
+}
+
+.cell__value {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  color: $color-on-surface-variant;
+  text-transform: uppercase;
+  letter-spacing: $letter-spacing-wide;
+  line-height: $line-height-normal;
+}
+
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+  padding: $spacing-md;
+  border: 1px solid rgba($color-primary, 0.2);
+  border-radius: $radius-lg;
+  background-color: rgba($color-primary, 0.04);
+}
+
+.note__icon {
+  font-size: 20px;
+  color: $color-primary;
+  flex-shrink: 0;
+}
+
+.note__text {
+  font-family: $font-mono;
+  font-size: $font-size-xs;
+  color: $color-on-surface-variant;
+  text-transform: uppercase;
+  letter-spacing: $letter-spacing-wide;
+  line-height: $line-height-normal;
+}
