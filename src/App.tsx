@@ -12,6 +12,10 @@ const ProductTabs = lazy(() =>
   import('@/components/details').then((m) => ({ default: m.ProductTabs }))
 );
 
+const PrecisionEngineering = lazy(() =>
+  import('@/components/details').then((m) => ({ default: m.PrecisionEngineering }))
+);
+
 function App(): ReactElement {
   const { isCartOpen, closeCart } = useCartContext();
   const { product, isLoading, error } = useProduct('1');
@@ -61,6 +65,12 @@ function App(): ReactElement {
         <div className={styles['details-section']}>
           <Suspense fallback={<div className={styles['tabs-loading']}>Loading details...</div>}>
             <ProductTabs reviewCount={product.rating.count} />
+          </Suspense>
+        </div>
+
+        <div className={styles['precision-section']}>
+          <Suspense fallback={null}>
+            <PrecisionEngineering />
           </Suspense>
         </div>
       </div>

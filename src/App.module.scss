@@ -73,3 +73,13 @@
   color: $color-on-surface-variant;
   opacity: 0.5;
 }
+
+.precision-section {
+  padding: 0 $spacing-gutter;
+  max-width: $max-width;
+  margin: $spacing-xl auto 0;
+
+  @include mobile {
+    padding: 0 $spacing-margin-mobile;
+  }
+}
