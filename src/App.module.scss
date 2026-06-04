@@ -7,7 +7,7 @@
   padding: $spacing-md $spacing-gutter;
 
   @include mobile {
-    padding: $spacing-sm $spacing-margin-mobile;
+    padding: $spacing-md $spacing-margin-mobile;
     padding-bottom: $sticky-bar-safe-padding;
   }
 }
