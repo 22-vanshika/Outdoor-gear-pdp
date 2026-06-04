@@ -24,7 +24,7 @@ function App(): ReactElement {
   if (isLoading) {
     return (
       <div className={styles['loading-container']}>
-        Loading...
+        <div className={styles.spinner} aria-label="Loading product..." />
       </div>
     );
   }

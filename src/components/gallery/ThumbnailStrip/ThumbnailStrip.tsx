@@ -73,14 +73,34 @@ export function ThumbnailStrip({ images, activeIndex, onSelect }: ThumbnailStrip
         ))}
       </div>
 
-      {/* Dots position indicator (mobile only) — purely visual, thumbnails above are the interactive control */}
-      <div className={styles.dots} aria-hidden="true">
-        {images.map((_, index) => (
-          <span
-            key={index}
-            className={`${styles.dot} ${activeIndex === index ? styles['dot--active'] : ''}`}
-          />
-        ))}
+      {/* Navigation and dots position indicator (mobile only) */}
+      <div className={styles.navigation}>
+        <button 
+          className={styles.arrow}
+          onClick={() => onSelect(Math.max(0, activeIndex - 1))}
+          disabled={activeIndex === 0}
+          aria-label="Previous image"
+        >
+          <span className="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+        </button>
+
+        <div className={styles.dots} aria-hidden="true">
+          {images.map((_, index) => (
+            <span
+              key={index}
+              className={`${styles.dot} ${activeIndex === index ? styles['dot--active'] : ''}`}
+            />
+          ))}
+        </div>
+
+        <button 
+          className={styles.arrow}
+          onClick={() => onSelect(Math.min(images.length - 1, activeIndex + 1))}
+          disabled={activeIndex === images.length - 1}
+          aria-label="Next image"
+        >
+          <span className="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+        </button>
       </div>
     </div>
   );

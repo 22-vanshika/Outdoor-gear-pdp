@@ -60,15 +60,44 @@
   display: block;
 }
 
-.dots {
+.navigation {
   display: none;
 
   @include mobile {
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: $spacing-xs;
+    gap: $spacing-md;
     margin-top: $spacing-sm;
   }
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: $color-primary;
+  cursor: pointer;
+  padding: $spacing-xs;
+  border-radius: $radius-full;
+  transition: background-color $transition-fast;
+
+  &:hover:not(:disabled) {
+    background-color: $color-surface-container-highest;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: $spacing-xs;
 }
 
 .dot {
